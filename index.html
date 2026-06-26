@@ -40,10 +40,14 @@
 
   <!-- ===== Hero ===== -->
   <section id="top" data-screen-label="Hero" style="position:relative;min-height:100vh;display:flex;align-items:center;background:var(--oak-black);overflow:hidden;">
-    <!-- signage (full-bleed, blends into black toward the text) -->
-    <div data-parallax="0.04" aria-hidden="true" style="position:absolute;inset:-8% 0;background-image:url('images/signage.jpg');background-size:auto 64%;background-repeat:no-repeat;background-position:right center;filter:saturate(.72) contrast(1.05) brightness(.9);"></div>
-    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg, #141414 0%, #141414 36%, rgba(20,20,20,0.74) 52%, rgba(20,20,20,0.26) 72%, rgba(20,20,20,0.03) 100%);"></div>
-    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, rgba(20,20,20,0.28), transparent 22%, transparent 78%, rgba(20,20,20,0.5));"></div>
+    <!-- signage (full-bleed, screened into the black so the letters emerge from darkness) -->
+    <div data-parallax="0.04" aria-hidden="true" style="position:absolute;inset:-6% 0;background-image:url('images/signage.jpg');background-size:auto 52%;background-repeat:no-repeat;background-position:right -3% center;filter:saturate(.5) contrast(1.16) brightness(.8);mix-blend-mode:screen;"></div>
+    <!-- edge vignette: dissolves the photo's borders into the section black on every side -->
+    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(48% 64% at 84% 50%, rgba(20,20,20,0) 22%, rgba(20,20,20,0.5) 64%, #141414 100%);"></div>
+    <!-- text protection: keeps the left column pure black for legibility, fades to clear over the sign -->
+    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg, #141414 0%, #141414 48%, rgba(20,20,20,0.74) 62%, rgba(20,20,20,0.2) 80%, rgba(20,20,20,0) 96%);"></div>
+    <!-- top/bottom feather -->
+    <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, #141414 0%, rgba(20,20,20,0) 16%, rgba(20,20,20,0) 82%, rgba(20,20,20,0.7) 100%);"></div>
     <!-- marble glow -->
     <div data-parallax="0.18" aria-hidden="true" style="position:absolute;top:-20%;right:-10%;width:70vw;height:90vh;pointer-events:none;background:radial-gradient(closest-side, rgba(168,150,111,0.16), rgba(168,150,111,0.05) 45%, transparent 72%);"></div>
     <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 120%, rgba(0,0,0,0.55), transparent 60%);"></div>
