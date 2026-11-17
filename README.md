@@ -11,34 +11,25 @@ Sin framework, sin paso de build: HTML, CSS y un único archivo JS.
 .
 ├── index.html        # Página principal
 ├── css/
-│   └── styles.css    # Tokens de marca + capa de experiencia (escenas, motion, responsive)
+│   └── styles.css    # Tokens de marca + estilos de página y responsive
 ├── js/
-│   └── main.js       # Motor de escenas sin dependencias (scroll, reveals, canvas, menú)
+│   └── main.js       # Revelados únicos, header, sección activa y menú móvil
 └── images/           # Imágenes del sitio (signage, stairs, reception, meeting, globe, wave)
 ```
 
 ## Experiencia
 
-Narrativa por escenas ligadas al scroll. Lenguaje de motion: *luz que recorre piedra*
-(revelados por máscara, lentos y precisos).
+Movimiento mínimo y con intención: solo se anima lo que refuerza el discurso.
 
-| Escena | Comportamiento |
+| Animación | Qué comunica |
 |---|---|
-| Hero | Fijo; el titular se disuelve y el letrero avanza al desplazar. Retícula de puntos en canvas que se ilumina con el cursor |
-| Manifiesto | La frase se ilumina palabra por palabra al ritmo del scroll |
-| Visión | Tres fuerzas con revelado escalonado |
-| Value at stake | Una ventana (clip-path) se abre hasta cubrir la pantalla |
-| Enfoque | Split editorial con imagen en parallax y pilares |
-| Framework | Scroll fijo: Define / Evolve / Deliver encienden un diagrama de horizontes |
-| Capacidades | Bento de 8 capacidades con luz que sigue al cursor |
-| Modelo | Recorrido horizontal fijo (desktop) / swipe con snap (móvil) |
-| Cifras · Razones · Casos | Revelado por máscara, filas con trazo dorado, tarjetas apiladas |
-| CTA | Botón magnético |
+| Entrada del titular al cargar (una vez) | Presenta la marca |
+| Diagrama de horizontes que se dibuja de adentro hacia afuera | Define → Evolve → Deliver, todo dentro de un mismo gobierno |
+| Línea dorada que recorre Assess → Sustain | Un solo responsable de principio a fin |
+| Aparición breve de cada bloque (600 ms, 16 px) | Ritmo de lectura |
 
-Todo el movimiento lo controla una sola variable CSS (`--p`, 0 → 1) que escribe
-`js/main.js` en un único `requestAnimationFrame`. Solo se animan `transform`,
-`opacity`, `filter` y `clip-path`. Con `prefers-reduced-motion` todas las escenas
-se resuelven a su estado final legible, y sin JS el contenido es visible.
+Sin pines de scroll, parallax, scroll horizontal ni animaciones infinitas. Con
+`prefers-reduced-motion` todo aparece directamente, y sin JS el contenido es visible.
 
 ## Desarrollo local
 

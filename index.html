@@ -11,6 +11,7 @@
   <meta property="og:description" content="Consultoría en TI: estrategia, arquitectura y ejecución bajo un modelo de gobierno único.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Montserrat:wght@300;400;500;600&display=swap">
   <link rel="preload" as="image" href="images/signage.jpg">
   <link rel="stylesheet" href="css/styles.css">
   <script>document.documentElement.classList.replace('no-js','js');</script>
@@ -20,9 +21,6 @@
 <body>
 
 <a class="skip" href="#manifiesto">Saltar al contenido</a>
-
-<!-- Scroll progress -->
-<div class="progress" aria-hidden="true"><span></span></div>
 
 <!-- ===================== Header ===================== -->
 <header class="nav" id="nav">
@@ -38,14 +36,13 @@
       <a href="#modelo" data-nav-link>Modelo</a>
       <a href="#casos" data-nav-link>Casos</a>
     </nav>
-    <a href="#contacto" class="btn btn--glass btn--sm nav__cta">Conversemos</a>
+    <a href="#contacto" class="btn btn--line btn--sm nav__cta">Conversemos</a>
     <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
       <span></span><span></span>
     </button>
   </div>
 </header>
 
-<!-- Mobile menu -->
 <div class="menu" id="menu" hidden>
   <nav aria-label="Menú móvil">
     <a href="#vision">Visión</a>
@@ -59,54 +56,42 @@
 
 <main>
 
-<!-- ===================== 01 · Hero (pinned, scroll-scrubbed) ===================== -->
-<section class="hero" id="top" data-scrub aria-label="Introducción">
-  <div class="hero__stage">
-    <canvas class="hero__field" aria-hidden="true"></canvas>
-    <div class="hero__media" aria-hidden="true">
-      <img src="images/signage.jpg" alt="" width="554" height="474" fetchpriority="high">
-    </div>
-    <div class="hero__veil" aria-hidden="true"></div>
+<!-- ===================== Hero ===================== -->
+<section class="hero" id="top" aria-label="Introducción">
+  <div class="hero__media" aria-hidden="true">
+    <img src="images/signage.jpg" alt="" width="554" height="474" fetchpriority="high">
+  </div>
+  <div class="hero__veil" aria-hidden="true"></div>
 
-    <div class="hero__content container">
-      <p class="kicker rv rv--fade" style="--d:.15s">Consultoría en tecnologías de la información</p>
-      <h1 class="hero__title lines" aria-label="Architecting Technology Advantage">
-        <span><span>Architecting</span></span>
-        <span><span>Technology</span></span>
-        <span><span class="gold">Advantage</span></span>
-      </h1>
-      <p class="hero__lede rv" style="--d:.75s">Acompañamos a la dirección ejecutiva en la definición, evolución e ingeniería de soluciones tecnológicas — de la estrategia a la producción, bajo un modelo de gobierno único.</p>
-      <div class="hero__actions rv" style="--d:.9s">
-        <a href="#contacto" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
-        <a href="#enfoque" class="link-arrow">Conocer el enfoque <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
-      </div>
-    </div>
-
-    <div class="hero__foot container" aria-hidden="true">
-      <span>Estrategia</span><span>Arquitectura</span><span>Ingeniería</span><span>Operación</span>
-      <span class="hero__cue"><i></i>Desplazar</span>
+  <div class="hero__content container">
+    <p class="kicker rv">Consultoría en tecnologías de la información</p>
+    <h1 class="hero__title lines" aria-label="Architecting Technology Advantage">
+      <span><span>Architecting</span></span>
+      <span><span>Technology</span></span>
+      <span><span class="gold">Advantage</span></span>
+    </h1>
+    <p class="hero__lede rv" style="--d:.5s">Acompañamos a la dirección ejecutiva en la definición, evolución e ingeniería de soluciones tecnológicas — de la estrategia a la producción, bajo un modelo de gobierno único.</p>
+    <div class="hero__actions rv" style="--d:.6s">
+      <a href="#contacto" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
+      <a href="#enfoque" class="link-arrow">Conocer el enfoque <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
     </div>
   </div>
 </section>
 
-<!-- ===================== 02 · Manifiesto (word-by-word scrub) ===================== -->
-<section class="manifesto" id="manifiesto" data-scrub aria-label="Nuestra convicción">
-  <div class="manifesto__stage container">
-    <p class="label">Nuestra convicción</p>
-    <p class="manifesto__text" data-words>El valor no proviene de adoptar tecnología, sino de orquestar estrategia, arquitectura y ejecución como un sistema único.</p>
+<!-- ===================== Manifiesto ===================== -->
+<section class="manifesto" id="manifiesto" aria-label="Nuestra convicción">
+  <div class="container">
+    <p class="label rv">Nuestra convicción</p>
+    <p class="manifesto__text rv">El valor no proviene de adoptar tecnología, sino de orquestar <em>estrategia, arquitectura y ejecución</em> como un sistema único.</p>
   </div>
 </section>
 
-<!-- ===================== 03 · Visión: tres fuerzas ===================== -->
+<!-- ===================== Visión ===================== -->
 <section class="section section--light" id="vision">
   <div class="container">
-    <header class="head">
-      <p class="label label--dark rv rv--fade">Punto de vista</p>
-      <h2 class="display lines">
-        <span><span>Una reconfiguración estructural</span></span>
-        <span><span>redefine la economía</span></span>
-        <span><span>de cada industria.</span></span>
-      </h2>
+    <header class="head rv">
+      <p class="label label--dark">Punto de vista</p>
+      <h2 class="display">Una reconfiguración estructural redefine la economía de cada industria.</h2>
     </header>
 
     <ol class="forces" data-stagger>
@@ -114,159 +99,154 @@
         <span class="force__n">01</span>
         <h3>Erosión de la deuda tecnológica</h3>
         <p>El mantenimiento del legado absorbe una parte desproporcionada del presupuesto de TI y frena la capacidad de innovar.</p>
-        <span class="force__bar" aria-hidden="true"></span>
       </li>
       <li class="force rv">
         <span class="force__n">02</span>
         <h3>Tensión velocidad&nbsp;– control</h3>
         <p>El negocio exige entregar más rápido sin comprometer calidad, seguridad ni cumplimiento.</p>
-        <span class="force__bar" aria-hidden="true"></span>
       </li>
       <li class="force rv">
         <span class="force__n">03</span>
         <h3>Escasez estructural de talento</h3>
         <p>La demanda de capacidades críticas supera de forma persistente a la oferta disponible.</p>
-        <span class="force__bar" aria-hidden="true"></span>
       </li>
     </ol>
   </div>
 </section>
 
-<!-- ===================== 04 · Value at stake (clip-path expand) ===================== -->
-<section class="stake" data-scrub aria-labelledby="stake-title">
-  <div class="stake__stage">
-    <div class="stake__frame" aria-hidden="true">
-      <img src="images/stairs.jpg" alt="" width="398" height="474" loading="lazy">
-    </div>
-    <div class="stake__content container">
+<!-- ===================== Value at stake ===================== -->
+<section class="stake" aria-labelledby="stake-title">
+  <div class="stake__bg" aria-hidden="true"><img src="images/stairs.jpg" alt="" width="398" height="474" loading="lazy"></div>
+  <div class="container stake__content">
+    <header class="rv">
       <p class="label">Value at stake</p>
-      <h2 class="display display--light" id="stake-title">El costo silencioso<br>de no evolucionar.</h2>
-      <div class="stake__grid">
-        <div><h3>Crecimiento</h3><p>Ingresos no capturados por time-to-market lento y experiencias digitales rezagadas.</p></div>
-        <div><h3>Eficiencia</h3><p>Sobrecosto operativo del legado y de infraestructura sobredimensionada que drena la inversión disponible.</p></div>
-        <div><h3>Riesgo</h3><p>Exposición a interrupciones, brechas de seguridad e incumplimiento regulatorio.</p></div>
-      </div>
-      <p class="stake__close">Cada trimestre de inacción es valor que se transfiere a la competencia.</p>
+      <h2 class="display display--light" id="stake-title">El costo silencioso de no evolucionar.</h2>
+    </header>
+    <div class="stake__grid" data-stagger>
+      <div class="rv"><h3>Crecimiento</h3><p>Ingresos no capturados por time-to-market lento y experiencias digitales rezagadas.</p></div>
+      <div class="rv"><h3>Eficiencia</h3><p>Sobrecosto operativo del legado y de infraestructura sobredimensionada que drena la inversión disponible.</p></div>
+      <div class="rv"><h3>Riesgo</h3><p>Exposición a interrupciones, brechas de seguridad e incumplimiento regulatorio.</p></div>
     </div>
+    <p class="stake__close rv">Cada trimestre de inacción es valor que se transfiere a la competencia.</p>
   </div>
 </section>
 
-<!-- ===================== 05 · Enfoque: ambición ===================== -->
+<!-- ===================== Enfoque ===================== -->
 <section class="section section--paper" id="enfoque">
   <div class="container split">
-    <div class="split__text">
-      <p class="label label--dark rv rv--fade">La ambición de Oakmont</p>
-      <h2 class="display lines">
-        <span><span>Un socio estratégico,</span></span>
-        <span><span>no un proveedor</span></span>
-        <span><span>transaccional.</span></span>
-      </h2>
-      <p class="lede rv">Consultora especializada en TI que actúa como socio estratégico para la definición, evolución e implementación de soluciones tecnológicas.</p>
-      <p class="lede rv">Integramos <strong>advisory</strong> y <strong>delivery</strong> bajo un mismo techo: la estrategia que diseñamos es la misma que ejecutamos y de la que respondemos.</p>
+    <div class="split__text rv">
+      <p class="label label--dark">La ambición de Oakmont</p>
+      <h2 class="display">Un socio estratégico, no un proveedor transaccional.</h2>
+      <p class="lede">Consultora especializada en TI que actúa como socio estratégico para la definición, evolución e implementación de soluciones tecnológicas.</p>
+      <p class="lede">Integramos <strong>advisory</strong> y <strong>delivery</strong> bajo un mismo techo: la estrategia que diseñamos es la misma que ejecutamos y de la que respondemos.</p>
     </div>
-    <figure class="split__media rv rv--mask">
-      <img src="images/reception.jpg" alt="Recepción de las oficinas de Oakmont Services" width="387" height="523" loading="lazy" data-parallax="0.06">
+    <figure class="split__media rv" style="--d:.1s">
+      <img src="images/reception.jpg" alt="Recepción de las oficinas de Oakmont Services" width="387" height="523" loading="lazy">
       <figcaption>Discreción, excelencia y alto nivel de servicio.</figcaption>
     </figure>
   </div>
 
   <div class="container">
-    <ul class="pillars" data-stagger>
-      <li class="rv"><strong>End-to-End</strong><span>Un solo responsable</span></li>
-      <li class="rv"><strong>Senior</strong><span>Talento validado</span></li>
-      <li class="rv"><strong>Multicloud</strong><span>Independencia de fabricante</span></li>
-      <li class="rv"><strong>Outcomes</strong><span>Impacto de negocio</span></li>
+    <ul class="pillars rv">
+      <li><strong>End-to-End</strong><span>Un solo responsable</span></li>
+      <li><strong>Senior</strong><span>Talento validado</span></li>
+      <li><strong>Multicloud</strong><span>Independencia de fabricante</span></li>
+      <li><strong>Outcomes</strong><span>Impacto de negocio</span></li>
     </ul>
   </div>
 </section>
 
-<!-- ===================== 06 · Framework (sticky story) ===================== -->
-<section class="framework" data-sticky-story aria-labelledby="fw-title">
-  <div class="container framework__grid">
-    <div class="framework__visual">
-      <div class="framework__sticky">
-        <p class="label">Framework de entrega</p>
-        <h2 class="display display--light" id="fw-title">Tres horizontes,<br>un solo gobierno.</h2>
-        <svg class="orbit" viewBox="0 0 400 400" role="img" aria-label="Diagrama de tres horizontes concéntricos bajo una capa de gobierno">
-          <circle class="orbit__gov" cx="200" cy="200" r="190"/>
-          <circle class="orbit__ring" data-ring="2" cx="200" cy="200" r="150"/>
-          <circle class="orbit__ring" data-ring="1" cx="200" cy="200" r="104"/>
-          <circle class="orbit__ring" data-ring="0" cx="200" cy="200" r="58"/>
-          <circle class="orbit__core" cx="200" cy="200" r="6"/>
-          <g class="orbit__labels">
-            <text data-ring="0" x="200" y="205">DEFINE</text>
-            <text data-ring="1" x="200" y="113">EVOLVE</text>
-            <text data-ring="2" x="200" y="67">DELIVER</text>
-          </g>
-        </svg>
-        <ul class="framework__layer" aria-label="Capa transversal">
-          <li>Governance</li><li>Quality</li><li>Security</li><li>Innovation</li>
-        </ul>
-      </div>
-    </div>
+<!-- ===================== Framework: three horizons ===================== -->
+<section class="framework" aria-labelledby="fw-title">
+  <div class="container">
+    <header class="head rv">
+      <p class="label">Framework de entrega</p>
+      <h2 class="display display--light" id="fw-title">Tres horizontes, un solo gobierno.</h2>
+    </header>
 
-    <ol class="framework__steps">
-      <li data-step="0">
-        <span class="step__h">Horizonte 01</span>
-        <h3>Define</h3>
-        <p class="step__sub">Strategy &amp; Advisory</p>
-        <p>Diagnóstico, arquitectura objetivo y hoja de ruta priorizada por valor. Antes de escribir una línea de código, sabemos qué se va a construir, por qué y en qué orden.</p>
-      </li>
-      <li data-step="1">
-        <span class="step__h">Horizonte 02</span>
-        <h3>Evolve</h3>
-        <p class="step__sub">Modernization &amp; Architecture</p>
-        <p>Rediseño de capacidades y transición del estado actual al estado objetivo, sin detener la operación del negocio.</p>
-      </li>
-      <li data-step="2">
-        <span class="step__h">Horizonte 03</span>
-        <h3>Deliver</h3>
-        <p class="step__sub">Engineering &amp; Operations</p>
-        <p>Ingeniería, integración, despliegue y operación gestionada. La misma estructura de gobierno de principio a fin.</p>
-      </li>
-    </ol>
+    <div class="framework__grid">
+      <!-- The diagram draws once, inner to outer: each horizon builds on the previous one, all inside one governance ring. -->
+      <figure class="orbit-wrap rv">
+        <svg class="orbit" viewBox="0 0 400 400" role="img" aria-label="Tres horizontes concéntricos — Define, Evolve y Deliver — dentro de una misma capa de gobierno">
+          <circle class="orbit__gov" cx="200" cy="200" r="190" pathLength="1"/>
+          <circle class="orbit__ring r3" cx="200" cy="200" r="150" pathLength="1"/>
+          <circle class="orbit__ring r2" cx="200" cy="200" r="104" pathLength="1"/>
+          <circle class="orbit__ring r1" cx="200" cy="200" r="58" pathLength="1"/>
+          <circle class="orbit__core" cx="200" cy="200" r="5"/>
+          <text class="t1" x="200" y="204">DEFINE</text>
+          <text class="t2" x="200" y="116">EVOLVE</text>
+          <text class="t3" x="200" y="70">DELIVER</text>
+          <text class="t4" x="200" y="24">GOBIERNO</text>
+        </svg>
+        <figcaption>
+          <span>Capa transversal</span>
+          <ul><li>Governance</li><li>Quality</li><li>Security</li><li>Innovation</li></ul>
+        </figcaption>
+      </figure>
+
+      <ol class="horizons" data-stagger>
+        <li class="rv">
+          <span class="horizons__n">01</span>
+          <div>
+            <h3>Define</h3>
+            <p class="horizons__sub">Strategy &amp; Advisory</p>
+            <p>Diagnóstico, arquitectura objetivo y hoja de ruta priorizada por valor.</p>
+          </div>
+        </li>
+        <li class="rv">
+          <span class="horizons__n">02</span>
+          <div>
+            <h3>Evolve</h3>
+            <p class="horizons__sub">Modernization &amp; Architecture</p>
+            <p>Rediseño de capacidades y transición del estado actual al estado objetivo.</p>
+          </div>
+        </li>
+        <li class="rv">
+          <span class="horizons__n">03</span>
+          <div>
+            <h3>Deliver</h3>
+            <p class="horizons__sub">Engineering &amp; Operations</p>
+            <p>Ingeniería, integración, despliegue y operación gestionada.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
   </div>
 </section>
 
-<!-- ===================== 07 · Capacidades (bento) ===================== -->
+<!-- ===================== Capacidades ===================== -->
 <section class="section section--ivory" id="capacidades">
   <div class="container">
-    <header class="head head--row">
+    <header class="head head--row rv">
       <div>
-        <p class="label label--dark rv rv--fade">Arquitectura de capacidades</p>
-        <h2 class="display lines">
-          <span><span>Un portafolio modular</span></span>
-          <span><span>en dos planos.</span></span>
-        </h2>
+        <p class="label label--dark">Arquitectura de capacidades</p>
+        <h2 class="display">Un portafolio modular en dos planos.</h2>
       </div>
-      <p class="head__aside rv">Cuatro capacidades núcleo que construyen. Cuatro habilitadoras que aseguran que lo construido sea seguro, confiable y medible.</p>
+      <p class="head__aside">Cuatro capacidades núcleo que construyen. Cuatro habilitadoras que aseguran que lo construido sea seguro, confiable y medible.</p>
     </header>
 
+    <p class="plane rv">Capacidades núcleo</p>
     <div class="bento" data-stagger>
-      <article class="tile tile--hero tile--dark rv rv--scale">
+      <article class="tile tile--hero rv">
         <div class="tile__img" aria-hidden="true"><img src="images/meeting.jpg" alt="" width="1536" height="1024" loading="lazy"></div>
-        <span class="tile__tag">Núcleo</span>
         <i data-lucide="layers" aria-hidden="true"></i>
         <h3>Fábrica de Software</h3>
         <p class="tile__en">Software Engineering Factory</p>
         <p>Entrega gestionada por células, con procesos, SLAs y delivery governance.</p>
       </article>
-      <article class="tile rv rv--scale">
-        <span class="tile__tag">Núcleo</span>
+      <article class="tile rv">
         <i data-lucide="compass" aria-hidden="true"></i>
         <h3>Strategy &amp; Advisory</h3>
         <p class="tile__en">Technology Strategy</p>
         <p>Diagnóstico, arquitectura objetivo, roadmap multianual y caso de negocio.</p>
       </article>
-      <article class="tile rv rv--scale">
-        <span class="tile__tag">Núcleo</span>
+      <article class="tile rv">
         <i data-lucide="users" aria-hidden="true"></i>
         <h3>Staff Augmentation</h3>
         <p class="tile__en">Specialized Talent Solutions</p>
         <p>Talento senior validado, técnica y culturalmente, con reemplazo garantizado.</p>
       </article>
-      <article class="tile tile--wide tile--dark rv rv--scale">
-        <span class="tile__tag">Núcleo</span>
+      <article class="tile tile--wide tile--dark rv">
         <i data-lucide="cloud" aria-hidden="true"></i>
         <h3>Cloud / Multicloud</h3>
         <p class="tile__en">Cloud Modernization</p>
@@ -275,29 +255,29 @@
           <li>Retain</li><li>Retire</li><li>Rehost</li><li>Relocate</li><li>Replatform</li><li>Repurchase</li><li>Refactor</li>
         </ul>
       </article>
-      <article class="tile rv rv--scale">
-        <span class="tile__tag tile__tag--alt">Habilitadora</span>
+    </div>
+
+    <p class="plane rv">Capacidades habilitadoras</p>
+    <div class="enablers" data-stagger>
+      <article class="tile tile--flat rv">
         <i data-lucide="sparkles" aria-hidden="true"></i>
         <h3>Data &amp; AI</h3>
         <p class="tile__en">Inteligencia Artificial y Datos</p>
         <p>Del dato a la decisión y de la IA a la ventaja operativa, con ROI demostrable.</p>
       </article>
-      <article class="tile rv rv--scale">
-        <span class="tile__tag tile__tag--alt">Habilitadora</span>
+      <article class="tile tile--flat rv">
         <i data-lucide="shield-check" aria-hidden="true"></i>
         <h3>Cyber &amp; Trust</h3>
         <p class="tile__en">Ciberseguridad</p>
         <p>Seguridad por diseño — no como un control de última hora.</p>
       </article>
-      <article class="tile rv rv--scale">
-        <span class="tile__tag tile__tag--alt">Habilitadora</span>
+      <article class="tile tile--flat rv">
         <i data-lucide="activity" aria-hidden="true"></i>
         <h3>Cloud Operations</h3>
         <p class="tile__en">DevOps · SRE · FinOps</p>
         <p>Plataformas modernas con confiabilidad y eficiencia de costo demostrables.</p>
       </article>
-      <article class="tile rv rv--scale">
-        <span class="tile__tag tile__tag--alt">Habilitadora</span>
+      <article class="tile tile--flat rv">
         <i data-lucide="badge-check" aria-hidden="true"></i>
         <h3>Quality Engineering</h3>
         <p class="tile__en">QA &amp; Testing</p>
@@ -307,97 +287,89 @@
   </div>
 </section>
 
-<!-- ===================== 08 · Modelo de engagement (horizontal scroll) ===================== -->
-<section class="journey" id="modelo" data-hscroll aria-labelledby="journey-title">
-  <div class="journey__stage">
-    <div class="journey__head container">
-      <p class="label">Engagement y gobierno</p>
-      <h2 class="display display--light" id="journey-title">Un modelo de entrega<br>con un solo responsable.</h2>
-      <div class="journey__rail" aria-hidden="true"><span></span></div>
-    </div>
-    <ol class="journey__track">
-      <li class="phase phase--img">
-        <img src="images/meeting.jpg" alt="Equipo de Oakmont en sesión de trabajo con el cliente" width="1536" height="1024" loading="lazy">
-        <p>Transparencia y comunicación continua, de la primera sesión al último despliegue.</p>
-      </li>
-      <li class="phase"><span class="phase__n">01</span><h3>Assess</h3><p>Entendimiento del negocio, el reto y el estado actual.</p></li>
-      <li class="phase"><span class="phase__n">02</span><h3>Design</h3><p>Alcance a la medida, modelo de entrega y métricas de éxito.</p></li>
-      <li class="phase"><span class="phase__n">03</span><h3>Execute</h3><p>Ejecución gestionada con transparencia y comunicación continua.</p></li>
-      <li class="phase"><span class="phase__n">04</span><h3>Sustain</h3><p>Medición de impacto, iteración y evolución continua.</p></li>
-      <li class="phase phase--meta">
-        <div><h4>Delivery governance</h4><p>Steering, gestión de riesgos, reporting ejecutivo y un único punto de responsabilidad.</p></div>
-        <div><h4>Modelos contractuales</h4><p>Proyecto, capacidad dedicada, staff o managed service.</p></div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- ===================== 09 · Cifras ===================== -->
-<section class="figures section--paper" aria-label="Oakmont en cifras">
-  <div class="container figures__grid" data-stagger>
-    <div class="figure rv rv--mask"><strong>2</strong><span>semanas de diagnóstico estratégico, con hallazgos accionables</span></div>
-    <div class="figure rv rv--mask"><strong>8</strong><span>capacidades integradas en un solo portafolio</span></div>
-    <div class="figure rv rv--mask"><strong>3</strong><span>hyperscalers: AWS, Microsoft Azure y Google Cloud</span></div>
-    <div class="figure rv rv--mask"><strong>1</strong><span>responsable de la estrategia a la operación</span></div>
-  </div>
-</section>
-
-<!-- ===================== 10 · Por qué Oakmont ===================== -->
-<section class="why" aria-labelledby="why-title">
-  <div class="why__bg" aria-hidden="true" data-parallax="0.08"><img src="images/globe.jpg" alt="" width="532" height="474" loading="lazy"></div>
+<!-- ===================== Modelo de engagement ===================== -->
+<section class="journey" id="modelo" aria-labelledby="journey-title">
   <div class="container">
-    <header class="head">
-      <p class="label rv rv--fade">Por qué Oakmont</p>
-      <h2 class="display display--light lines" id="why-title">
-        <span><span>Cinco razones para</span></span>
-        <span><span>confiar la decisión.</span></span>
-      </h2>
+    <header class="head rv">
+      <p class="label">Engagement y gobierno</p>
+      <h2 class="display display--light" id="journey-title">Un modelo de entrega con un solo responsable.</h2>
     </header>
-    <ol class="reasons">
-      <li class="rv"><span>01</span><h3>Advisory-to-engineering bajo un solo techo</h3><p>Respondemos por la estrategia que ejecutamos.</p></li>
-      <li class="rv"><span>02</span><h3>Talento senior validado</h3><p>Experiencia real en entornos de alta exigencia.</p></li>
-      <li class="rv"><span>03</span><h3>Neutralidad tecnológica y multicloud</h3><p>Independencia al servicio del negocio.</p></li>
-      <li class="rv"><span>04</span><h3>IA e innovación embebidas</h3><p>Preparamos a la organización para el siguiente ciclo.</p></li>
-      <li class="rv"><span>05</span><h3>Accountability por outcomes</h3><p>Time-to-market, costo y riesgo como métricas de éxito.</p></li>
+
+    <!-- One gold line runs through the four phases: a single, continuous accountability. -->
+    <ol class="phases rv">
+      <li><span class="phases__dot" aria-hidden="true"></span><span class="phases__n">01</span><h3>Assess</h3><p>Entendimiento del negocio, el reto y el estado actual.</p></li>
+      <li><span class="phases__dot" aria-hidden="true"></span><span class="phases__n">02</span><h3>Design</h3><p>Alcance a la medida, modelo de entrega y métricas de éxito.</p></li>
+      <li><span class="phases__dot" aria-hidden="true"></span><span class="phases__n">03</span><h3>Execute</h3><p>Ejecución gestionada con transparencia y comunicación continua.</p></li>
+      <li><span class="phases__dot" aria-hidden="true"></span><span class="phases__n">04</span><h3>Sustain</h3><p>Medición de impacto, iteración y evolución continua.</p></li>
+    </ol>
+
+    <div class="journey__meta rv">
+      <div><h4>Delivery governance</h4><p>Steering, gestión de riesgos, reporting ejecutivo y un único punto de responsabilidad.</p></div>
+      <div><h4>Modelos contractuales</h4><p>Proyecto, capacidad dedicada, staff o managed service.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Cifras ===================== -->
+<section class="figures" aria-label="Oakmont en cifras">
+  <div class="container figures__grid rv">
+    <div class="figure"><strong>2</strong><span>semanas de diagnóstico estratégico, con hallazgos accionables</span></div>
+    <div class="figure"><strong>8</strong><span>capacidades integradas en un solo portafolio</span></div>
+    <div class="figure"><strong>3</strong><span>hyperscalers: AWS, Microsoft Azure y Google Cloud</span></div>
+    <div class="figure"><strong>1</strong><span>responsable de la estrategia a la operación</span></div>
+  </div>
+</section>
+
+<!-- ===================== Por qué Oakmont ===================== -->
+<section class="why" aria-labelledby="why-title">
+  <div class="why__bg" aria-hidden="true"><img src="images/globe.jpg" alt="" width="532" height="474" loading="lazy"></div>
+  <div class="container">
+    <header class="head rv">
+      <p class="label">Por qué Oakmont</p>
+      <h2 class="display display--light" id="why-title">Cinco razones para confiar la decisión.</h2>
+    </header>
+    <ol class="reasons rv">
+      <li><span>01</span><h3>Advisory-to-engineering bajo un solo techo</h3><p>Respondemos por la estrategia que ejecutamos.</p></li>
+      <li><span>02</span><h3>Talento senior validado</h3><p>Experiencia real en entornos de alta exigencia.</p></li>
+      <li><span>03</span><h3>Neutralidad tecnológica y multicloud</h3><p>Independencia al servicio del negocio.</p></li>
+      <li><span>04</span><h3>IA e innovación embebidas</h3><p>Preparamos a la organización para el siguiente ciclo.</p></li>
+      <li><span>05</span><h3>Accountability por outcomes</h3><p>Time-to-market, costo y riesgo como métricas de éxito.</p></li>
     </ol>
   </div>
 </section>
 
-<!-- ===================== 11 · Casos (stacked cards) ===================== -->
+<!-- ===================== Casos ===================== -->
 <section class="section section--paper" id="casos">
   <div class="container">
-    <header class="head head--row">
+    <header class="head head--row rv">
       <div>
-        <p class="label label--dark rv rv--fade">Credentials &amp; proof points</p>
-        <h2 class="display lines">
-          <span><span>Casos representativos</span></span>
-          <span><span>e impacto.</span></span>
-        </h2>
+        <p class="label label--dark">Credentials &amp; proof points</p>
+        <h2 class="display">Casos representativos e impacto.</h2>
       </div>
-      <ul class="partners rv" aria-label="Alianzas y certificaciones">
+      <ul class="partners" aria-label="Alianzas y certificaciones">
         <li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li>
       </ul>
     </header>
 
-    <div class="cases">
-      <article class="case">
-        <div class="case__meta"><span class="case__n">01</span><span>Servicios financieros</span></div>
+    <div class="cases" data-stagger>
+      <article class="case rv">
+        <p class="case__meta">Caso 01 · Servicios financieros</p>
         <h3 class="case__result">Time-to-market acelerado y reducción sostenida del costo de plataforma.</h3>
         <dl class="case__body">
           <div><dt>Reto</dt><dd>Núcleo transaccional legado, costoso de operar y lento para evolucionar.</dd></div>
           <div><dt>Intervención</dt><dd>Modernización multicloud bajo el marco 7R con fábrica de software gestionada.</dd></div>
         </dl>
       </article>
-      <article class="case case--dark">
-        <div class="case__meta"><span class="case__n">02</span><span>Retail y consumo</span></div>
+      <article class="case rv">
+        <p class="case__meta">Caso 02 · Retail y consumo</p>
         <h3 class="case__result">Alta disponibilidad en operación y despliegues de semanas a días.</h3>
         <dl class="case__body">
           <div><dt>Reto</dt><dd>Picos de demanda que comprometían la disponibilidad y la experiencia digital.</dd></div>
           <div><dt>Intervención</dt><dd>Rearquitectura cloud-native con observabilidad y prácticas SRE.</dd></div>
         </dl>
       </article>
-      <article class="case case--taupe">
-        <div class="case__meta"><span class="case__n">03</span><span>Salud y seguros</span></div>
+      <article class="case rv">
+        <p class="case__meta">Caso 03 · Salud y seguros</p>
         <h3 class="case__result">Ciclo de decisión más corto y nuevos servicios de datos en producción.</h3>
         <dl class="case__body">
           <div><dt>Reto</dt><dd>Datos fragmentados que frenaban decisiones y el lanzamiento de nuevos servicios.</dd></div>
@@ -408,19 +380,15 @@
   </div>
 </section>
 
-<!-- ===================== 12 · CTA ===================== -->
+<!-- ===================== CTA ===================== -->
 <section class="cta" id="contacto" aria-labelledby="cta-title">
-  <div class="cta__bg" aria-hidden="true" data-parallax="0.1"><img src="images/wave.jpg" alt="" width="342" height="523" loading="lazy"></div>
-  <div class="container cta__inner">
-    <p class="label rv rv--fade">Siguiente paso</p>
-    <h2 class="cta__title lines" id="cta-title">
-      <span><span>La distancia entre la ambición</span></span>
-      <span><span>tecnológica y su ejecución</span></span>
-      <span><span>es donde se gana la ventaja.</span></span>
-    </h2>
-    <p class="cta__sub rv">Oakmont existe para cerrarla. Propongamos un diagnóstico estratégico de dos semanas — sin compromiso, con hallazgos accionables.</p>
-    <div class="cta__actions rv">
-      <a href="mailto:contacto@oakmontservices.com?subject=Diagn%C3%B3stico%20estrat%C3%A9gico" class="btn btn--gold btn--lg magnetic">Agendar diagnóstico</a>
+  <div class="cta__bg" aria-hidden="true"><img src="images/wave.jpg" alt="" width="342" height="523" loading="lazy"></div>
+  <div class="container cta__inner rv">
+    <p class="label">Siguiente paso</p>
+    <h2 class="cta__title" id="cta-title">La distancia entre la ambición tecnológica y su ejecución es donde se gana la ventaja.</h2>
+    <p class="cta__sub">Oakmont existe para cerrarla. Propongamos un diagnóstico estratégico de dos semanas — sin compromiso, con hallazgos accionables.</p>
+    <div class="cta__actions">
+      <a href="mailto:contacto@oakmontservices.com?subject=Diagn%C3%B3stico%20estrat%C3%A9gico" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
       <a href="mailto:contacto@oakmontservices.com" class="link-arrow">contacto@oakmontservices.com</a>
     </div>
   </div>
