@@ -16,8 +16,14 @@ import sys
 from html import escape
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Output settings (see __main__): production writes clean folder links into the
+# repository; --preview writes a copy whose links name index.html explicitly,
+# for hosts that do not resolve folder indexes (e.g. file previews).
+OUT = ROOT
+EXPLICIT_INDEX = False
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import content as C  # noqa: E402
+from icons import ICONS  # noqa: E402
 
 SVC = {s["slug"]: s for s in C.SERVICES}
 IND = {i["slug"]: i for i in C.INDUSTRIES}
@@ -37,12 +43,21 @@ def explicit_index(html):
     return LINK_RE.sub(fix, html)
 
 
+def meta_description(text, limit=158):
+    """Search engines show ~155-160 characters; cut at a word boundary."""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit - 1].rsplit(" ", 1)[0].rstrip(",;:—-– ")
+    return cut + "…"
+
+
 def e(s):
     return escape(s, quote=True)
 
 
 def icon(name):
-    return f'<i data-lucide="{name}" aria-hidden="true"></i>'
+    return (f'<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" '
+            f'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{ICONS[name]}</svg>')
 
 
 # --------------------------------------------------------------------------
@@ -64,7 +79,7 @@ def header(r, active, home):
 
     return f'''
 <a class="skip" href="#contenido">Saltar al contenido</a>
-<header class="nav{'' if home else ' is-solid nav--static'}" id="nav">
+<header class="nav{'' if home else ' is-solid'}" id="nav">
   <div class="nav__inner">
     <a href="{r}" class="wordmark" aria-label="Oakmont Services — inicio">
       <span class="wordmark__name">OAKMONT</span>
@@ -126,7 +141,7 @@ def footer(r):
     return f'''
 <footer class="footer">
   <div class="container footer__top">
-    <div class="footer__brand">
+    <div>
       <a href="{r}" class="wordmark wordmark--lg" aria-label="Oakmont Services — inicio">
         <span class="wordmark__name">OAKMONT</span>
         <span class="wordmark__sub">SERVICES</span>
@@ -135,13 +150,13 @@ def footer(r):
       <p class="footer__pitch">Consultoría en tecnologías de la información: estrategia, arquitectura e ingeniería bajo un modelo de gobierno único.</p>
     </div>
     <div class="footer__cols">
-      <nav aria-label="Servicios"><h4>Servicios</h4>{svc}</nav>
-      <nav aria-label="Industrias"><h4>Industrias</h4>{ind}</nav>
-      <nav aria-label="Firma"><h4>Firma</h4>
+      <nav aria-label="Servicios"><p class="footer__h">Servicios</p>{svc}</nav>
+      <nav aria-label="Industrias"><p class="footer__h">Industrias</p>{ind}</nav>
+      <nav aria-label="Firma"><p class="footer__h">Firma</p>
         <a href="{r}enfoque/">Enfoque</a><a href="{r}casos/">Casos</a><a href="{r}nosotros/">Nosotros</a>
         <a href="{r}diagnostico/">Diagnóstico</a><a href="{r}contacto/">Contacto</a>
       </nav>
-      <div><h4>Contacto</h4>
+      <div><p class="footer__h">Contacto</p>
         <a href="mailto:{C.SITE["email"]}">{C.SITE["email"]}</a>
         <a href="{C.SITE["linkedin"]}" rel="noopener" target="_blank">LinkedIn</a>
       </div>
@@ -179,6 +194,7 @@ def write(path, title, desc, body, active="", crumbs=None, home=False, ld=None, 
         r = "../" * depth
     url_path = "" if path == "index.html" else path.replace("index.html", "")
     canonical = C.SITE["domain"] + "/" + url_path
+    desc = meta_description(desc)
     full_title = title if home else f"{title} | Oakmont Services"
     lds = list(ld or [])
     if crumbs:
@@ -208,10 +224,9 @@ def write(path, title, desc, body, active="", crumbs=None, home=False, ld=None, 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Montserrat:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="{r}css/styles.css">
   <script>document.documentElement.classList.replace('no-js','js');</script>
-  <script src="https://unpkg.com/lucide@0.456.0/dist/umd/lucide.min.js" defer></script>
   <script src="{r}js/main.js" defer></script>{ld_html}
 </head>
-<body{' class="is-home"' if home else ''}>
+<body>
 {header(r, active, home)}
 <main id="contenido">
 {body}
@@ -220,10 +235,9 @@ def write(path, title, desc, body, active="", crumbs=None, home=False, ld=None, 
 </body>
 </html>
 '''
-    # Point every internal folder link at its index.html so navigation works on
-    # any host, including previews that do not resolve directory indexes.
-    html = explicit_index(html)
-    out = os.path.join(ROOT, path)
+    if EXPLICIT_INDEX:
+        html = explicit_index(html)
+    out = os.path.join(OUT, path)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
@@ -275,7 +289,7 @@ def svc_card(r, s):
     return f'''<a class="scard rv" href="{r}servicios/{s["slug"]}/">
   {icon(s["icon"])}
   <h3>{e(s["name"])}</h3>
-  <p class="scard__en">{e(s["en"])}</p>
+  <p class="scard__sub">{e(s["sub"])}</p>
   <p>{e(s["short"])}</p>
   <span class="scard__more">Ver servicio</span>
 </a>'''
@@ -306,7 +320,7 @@ def build_home():
         return f'''<a class="tile {extra} rv" href="servicios/{s["slug"]}/">{img}
         {icon(s["icon"])}
         <h3>{e(s["name"])}</h3>
-        <p class="tile__en">{e(s["en"])}</p>
+        <p class="tile__sub">{e(s["sub"])}</p>
         <p>{e(s["short"])}</p>{chips}
         <span class="tile__more">Ver servicio</span>
       </a>'''
@@ -366,7 +380,7 @@ def build_home():
 <section class="stake" aria-labelledby="stake-title">
   <div class="stake__bg" aria-hidden="true"><img src="images/stairs.jpg" alt="" width="398" height="474" loading="lazy"></div>
   <div class="container stake__content">
-    <header class="rv"><p class="label">Value at stake</p><h2 class="display display--light" id="stake-title">El costo silencioso de no evolucionar.</h2></header>
+    <header class="rv"><p class="label">Valor en juego</p><h2 class="display display--light" id="stake-title">El costo silencioso de no evolucionar.</h2></header>
     <div class="stake__grid" data-stagger>
       <div class="rv"><h3>Crecimiento</h3><p>Ingresos no capturados por time-to-market lento y experiencias digitales rezagadas.</p></div>
       <div class="rv"><h3>Eficiencia</h3><p>Sobrecosto operativo del legado y de infraestructura sobredimensionada que drena la inversión disponible.</p></div>
@@ -376,7 +390,7 @@ def build_home():
   </div>
 </section>
 
-<section class="section section--ivory" id="capacidades">
+<section class="section section--sand" id="capacidades">
   <div class="container">
     {head("Servicios", "Un portafolio modular en dos planos.", aside="Cuatro capacidades núcleo que construyen. Cuatro habilitadoras que aseguran que lo construido sea seguro, confiable y medible.")}
     <p class="plane rv">Capacidades núcleo</p>
@@ -411,7 +425,7 @@ def build_home():
   <div class="container figures__grid rv">
     <div class="figure"><strong>2</strong><span>semanas de diagnóstico estratégico, con hallazgos accionables</span></div>
     <div class="figure"><strong>8</strong><span>capacidades integradas en un solo portafolio</span></div>
-    <div class="figure"><strong>3</strong><span>hyperscalers: AWS, Microsoft Azure y Google Cloud</span></div>
+    <div class="figure"><strong>3</strong><span>nubes públicas: AWS, Microsoft Azure y Google Cloud</span></div>
     <div class="figure"><strong>1</strong><span>responsable de la estrategia a la operación</span></div>
   </div>
 </section>
@@ -428,7 +442,7 @@ def build_home():
 <section class="section section--paper">
   <div class="container">
     <header class="head head--row rv">
-      <div><p class="label label--dark">Credentials &amp; proof points</p><h2 class="display">Casos representativos e impacto.</h2></div>
+      <div><p class="label label--dark">Credenciales</p><h2 class="display">Casos representativos e impacto.</h2></div>
       <ul class="partners" aria-label="Alianzas"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li></ul>
     </header>
     <div class="cases" data-stagger>{cases}</div>
@@ -470,7 +484,7 @@ def orbit_svg():
           <text class="t3" x="200" y="70">DELIVER</text>
           <text class="t4" x="200" y="24">GOBIERNO</text>
         </svg>
-        <figcaption><span>Capa transversal</span><ul><li>Governance</li><li>Quality</li><li>Security</li><li>Innovation</li></ul></figcaption>
+        <figcaption><span>Capa transversal</span><ul><li>Gobierno</li><li>Calidad</li><li>Seguridad</li><li>Innovación</li></ul></figcaption>
       </figure>'''
 
 
@@ -487,7 +501,7 @@ def build_services_index():
     <div class="scards" data-stagger>{core}</div>
   </div>
 </section>
-<section class="section section--ivory">
+<section class="section section--sand">
   <div class="container">
     {head("Capacidades habilitadoras", "Lo que asegura que funcione.")}
     <div class="scards" data-stagger>{enab}</div>
@@ -540,7 +554,7 @@ def build_service(s):
     if cases:
         case_links = '<p class="aside__h">Casos relacionados</p><ul>' + "".join(f'<li><a href="{r}casos/{c["slug"]}/">{e(c["title"])}</a></li>' for c in cases) + "</ul>"
 
-    body = phero(r, crumbs, f'{plane} · {s["en"]}', s["name"], s["lede"], actions) + f'''
+    body = phero(r, crumbs, f'{plane} · {s["sub"]}', s["name"], s["lede"], actions) + f'''
 <section class="section section--paper">
   <div class="container">
     <div class="svc-intro rv">
@@ -584,7 +598,7 @@ def build_service(s):
   </div>
 </section>
 
-<section class="section section--ivory">
+<section class="section section--sand">
   <div class="container">
     {head("Resultados esperados", "Qué cambia en su organización.")}
     <ul class="outcomes" data-stagger>{outcomes}</ul>
@@ -594,7 +608,7 @@ def build_service(s):
 <section class="section section--light">
   <div class="container split split--even">
     <div class="rv"><p class="label label--dark">Preguntas frecuentes</p><h2 class="display">Lo que suelen preguntarnos.</h2></div>
-    <div class="faq rv">{faqs}</div>
+    <div class="rv">{faqs}</div>
   </div>
 </section>
 
@@ -608,7 +622,7 @@ def build_service(s):
     ld = [
         {"@context": "https://schema.org", "@type": "Service", "name": s["name"], "description": s["lede"],
          "provider": {"@type": "Organization", "name": C.SITE["name"], "url": C.SITE["domain"] + "/"},
-         "serviceType": s["en"], "url": C.SITE["domain"] + f'/servicios/{s["slug"]}/'},
+         "serviceType": s["sub"], "url": C.SITE["domain"] + f'/servicios/{s["slug"]}/'},
         {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in s["faqs"]]},
     ]
@@ -622,7 +636,7 @@ def build_industries_index():
     body = phero(r, crumbs, "Industrias", "Sectores donde la tecnología es el negocio.",
                  "Llevamos las mismas capacidades a contextos con exigencias distintas: regulación, picos de demanda, información sensible. Conocer el sector cambia qué se prioriza y cómo se ejecuta.") + f'''
 <section class="section section--paper">
-  <div class="container"><div class="icards" data-stagger>{cards}</div></div>
+  <div class="container"><h2 class="visually-hidden">Industrias</h2><div class="icards" data-stagger>{cards}</div></div>
 </section>''' + cta_band(r)
     write("industrias/index.html", "Industrias", "Consultoría en TI para servicios financieros, retail y consumo, y salud y seguros.",
           body, active="industrias", crumbs=crumbs)
@@ -679,10 +693,11 @@ def build_cases_index():
         <ul class="case__tags">{"".join(f"<li>{e(SVC[x]['name'])}</li>" for x in c["services"])}</ul>
         <span class="scard__more">Leer el caso</span>
       </a>''' for c in C.CASES)
-    body = phero(r, crumbs, "Credentials & proof points", "Casos representativos e impacto.",
+    body = phero(r, crumbs, "Credenciales", "Casos representativos e impacto.",
                  "Iniciativas en las que Oakmont respondió de la estrategia a la operación. Por confidencialidad, no publicamos el nombre de nuestros clientes; con gusto ampliamos el detalle en una conversación.") + f'''
 <section class="section section--paper">
   <div class="container">
+    <h2 class="visually-hidden">Casos</h2>
     <div class="cases" data-stagger>{cards}</div>
     <div class="partners-row rv"><span>Alianzas</span><ul class="partners"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li></ul></div>
   </div>
@@ -723,7 +738,7 @@ def build_case(c):
 <section class="framework">
   <div class="container">
     {head("Enfoque", "Cómo lo abordamos: Define, Evolve, Deliver.", dark=True)}
-    <ol class="horizons horizons--wide" data-stagger>{ap}</ol>
+    <ol class="horizons" data-stagger>{ap}</ol>
   </div>
 </section>
 <section class="section section--light">
@@ -732,7 +747,7 @@ def build_case(c):
     <ul class="checklist rv">{sol}</ul>
   </div>
 </section>
-<section class="section section--ivory">
+<section class="section section--sand">
   <div class="container">
     {head("Resultados", "Qué cambió.")}
     <ul class="results" data-stagger>{res}</ul>
@@ -766,6 +781,7 @@ def build_approach():
                  "Define, Evolve y Deliver no son tres proveedores ni tres contratos: son tres horizontes de una misma iniciativa, con un solo responsable y un mismo tablero de indicadores.") + f'''
 <section class="framework">
   <div class="container">
+    <h2 class="visually-hidden">Los tres horizontes</h2>
     <div class="framework__grid">
       {orbit_svg()}
       <ol class="horizons" data-stagger>{hz}</ol>
@@ -781,16 +797,16 @@ def build_approach():
 <section class="journey">
   <div class="container">
     {head("Modelo de engagement", "Cuatro fases, un solo responsable.", dark=True)}
-    <ol class="phases phases--detail rv">{ph}</ol>
+    <ol class="phases rv">{ph}</ol>
   </div>
 </section>
 <section class="section section--paper">
   <div class="container">
-    {head("Delivery governance", "Cómo se gobierna cada iniciativa.")}
+    {head("Gobierno de entrega", "Cómo se gobierna cada iniciativa.")}
     <ul class="outcomes outcomes--4" data-stagger>{gov}</ul>
   </div>
 </section>
-<section class="section section--ivory">
+<section class="section section--sand">
   <div class="container">
     {head("Modelos contractuales", "La forma de contratar se adapta al reto.")}
     <div class="table-wrap rv">
@@ -821,7 +837,7 @@ def build_about():
   <div class="container split">
     <div class="rv">
       <p class="label label--dark">Quiénes somos</p>
-      <h2 class="display">Advisory y delivery bajo un mismo techo.</h2>
+      <h2 class="display">Asesoría y ejecución bajo un mismo techo.</h2>
       <p class="lede">Integramos estrategia, arquitectura e ingeniería en un solo equipo. La estrategia que diseñamos es la misma que ejecutamos y de la que respondemos.</p>
       <p class="lede">Trabajamos con la dirección ejecutiva y con los equipos de tecnología, en el lenguaje de cada uno: valor, costo y riesgo para la dirección; arquitectura, calidad y operación para los equipos.</p>
     </div>
@@ -876,14 +892,14 @@ def build_diagnostic():
     needs = "".join(f'<li>{icon("check")}<span>{e(x)}</span></li>' for x in D["needs"])
     body = phero(r, crumbs, "Diagnóstico estratégico", "Dos semanas para saber dónde está y qué hacer primero.",
                  "Un diagnóstico acotado de su tecnología con hallazgos accionables y prioridades claras. Sin compromiso de contratación posterior.",
-                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes=diagnostico" class="btn btn--gold btn--lg">Solicitar diagnóstico</a></div>') + f'''
+                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes=diagnostico" class="btn btn--gold btn--lg">Agendar diagnóstico</a></div>') + f'''
 <section class="section section--paper">
   <div class="container">
     {head("Agenda", "Cómo se usan las dos semanas.")}
     <div class="weeks" data-stagger>{weeks}</div>
   </div>
 </section>
-<section class="section section--ivory">
+<section class="section section--sand">
   <div class="container">
     {head("Entregables", "Lo que recibe al terminar.")}
     <ul class="outcomes outcomes--4" data-stagger>{dl}</ul>
@@ -903,7 +919,7 @@ def build_diagnostic():
       <p class="lede">Al terminar, usted decide si continúa con Oakmont, con otro proveedor o con su propio equipo. Los entregables son suyos.</p>
     </div>
   </div>
-</section>''' + cta_band(r, title="Agende la sesión de arranque.", text="Respondemos en un máximo de dos días hábiles para acordar fechas y participantes.")
+</section>''' + cta_band(r, title="Agende la sesión de arranque.", text="Cuéntenos su contexto y acordamos con usted fechas y participantes.")
     write("diagnostico/index.html", "Diagnóstico estratégico de dos semanas", "Diagnóstico tecnológico de dos semanas con hallazgos accionables, riesgos priorizados e iniciativas por horizonte.",
           body, crumbs=crumbs)
 
@@ -916,11 +932,11 @@ def build_contact():
     opts += "".join(f'<option value="{i["slug"]}">Industria: {e(i["name"])}</option>' for i in C.INDUSTRIES)
     opts += '<option value="otro">Otro tema</option>'
     body = phero(r, crumbs, "Contacto", "Conversemos.",
-                 "Cuéntenos su contexto y el reto que enfrenta. Un socio de Oakmont le responderá en un máximo de dos días hábiles.") + f'''
+                 "Cuéntenos su contexto y el reto que enfrenta. Un especialista de Oakmont se pondrá en contacto con usted.") + f'''
 <section class="section section--paper">
   <div class="container with-aside">
-    <form class="form rv" id="contact-form" action="/api/contacto" method="post" novalidate>
-      <p class="form__ok" role="status" hidden>Gracias. Recibimos su mensaje y un socio de Oakmont le responderá en un máximo de dos días hábiles.</p>
+    <form class="form rv" id="contact-form" action="/api/contacto" method="post" data-email="{C.SITE["email"]}" novalidate>
+      <p class="form__ok" role="status" tabindex="-1">Gracias. Recibimos su mensaje; un especialista de Oakmont se pondrá en contacto con usted.</p>
       <div class="form__row">
         <label class="field"><span>Nombre completo *</span><input name="nombre" autocomplete="name" maxlength="120" required></label>
         <label class="field"><span>Correo corporativo *</span><input name="correo" type="email" autocomplete="email" maxlength="160" required></label>
@@ -934,7 +950,7 @@ def build_contact():
         <label class="field"><span>Tema de interés *</span><select name="interes" required>{opts}</select></label>
       </div>
       <label class="field"><span>¿Qué reto quiere resolver? *</span><textarea name="mensaje" rows="6" maxlength="5000" required></textarea></label>
-      <div class="hp" aria-hidden="true"><label>No llene este campo <input name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
+      <div class="visually-hidden" aria-hidden="true"><label>No llene este campo <input name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
       <input type="hidden" name="ts" value="">
       <input type="hidden" name="interes_label" value="">
       <input type="hidden" name="pagina_origen" value="">
@@ -952,8 +968,8 @@ def build_contact():
       <p><a href="{C.SITE["linkedin"]}" rel="noopener" target="_blank">Oakmont Services</a></p>
       <p class="aside__h">Qué pasa después</p>
       <ol class="steps-mini">
-        <li>Revisamos su mensaje y asignamos a un socio con experiencia en su tema.</li>
-        <li>Agendamos una conversación de 45 minutos para entender su contexto.</li>
+        <li>Revisamos su mensaje y lo asignamos a un especialista en su tema.</li>
+        <li>Conversamos con usted para entender su contexto.</li>
         <li>Le proponemos el siguiente paso: diagnóstico, propuesta o referencia.</li>
       </ol>
     </aside>
@@ -984,7 +1000,7 @@ def build_privacy():
       <h2>Derechos ARCO</h2>
       <p>Usted puede acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales, así como revocar su consentimiento, enviando una solicitud a <a href="mailto:{S["email"]}">{S["email"]}</a> con su nombre, un medio para comunicarle la respuesta, la descripción clara de los datos y el derecho que desea ejercer, y una copia de su identificación. Responderemos en los plazos que establece la ley.</p>
       <h2>Cookies y tecnologías similares</h2>
-      <p>Este sitio no utiliza cookies propias de rastreo ni publicidad. Las fuentes tipográficas e íconos se cargan desde proveedores externos (Google Fonts y unpkg), que pueden registrar datos técnicos de la conexión, como la dirección IP, conforme a sus propias políticas.</p>
+      <p>Este sitio no utiliza cookies propias de rastreo ni publicidad. Las fuentes tipográficas se cargan desde Google Fonts, que puede registrar datos técnicos de la conexión, como la dirección IP, conforme a sus propias políticas.</p>
       <h2>Cambios a este aviso</h2>
       <p>Cualquier modificación a este aviso de privacidad se publicará en esta misma página.</p>
     </div>
@@ -1013,13 +1029,24 @@ def build_404():
 
 def build_meta():
     urls = "".join(f"  <url><loc>{C.SITE['domain']}/{p}</loc></url>\n" for p in PAGES)
-    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
+    with open(os.path.join(OUT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
-    with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
+    with open(os.path.join(OUT, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(f"User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: {C.SITE['domain']}/sitemap.xml\n")
 
 
 if __name__ == "__main__":
+    import argparse
+    import shutil
+    ap = argparse.ArgumentParser(description="Genera el sitio de Oakmont Services.")
+    ap.add_argument("--preview", metavar="DIR", help="genera una copia con enlaces explícitos a index.html en DIR")
+    args = ap.parse_args()
+    if args.preview:
+        OUT = os.path.abspath(args.preview)
+        EXPLICIT_INDEX = True
+        for d in ("css", "js", "images"):
+            shutil.copytree(os.path.join(ROOT, d), os.path.join(OUT, d), dirs_exist_ok=True)
+        shutil.copy(os.path.join(ROOT, "favicon.svg"), OUT)
     build_home()
     build_services_index()
     for s in C.SERVICES:
@@ -1037,4 +1064,4 @@ if __name__ == "__main__":
     build_privacy()
     build_404()
     build_meta()
-    print(f"Generated {len(PAGES) + 1} pages + sitemap.xml + robots.txt")
+    print(f"Generated {len(PAGES) + 1} pages + sitemap.xml + robots.txt in {OUT}")

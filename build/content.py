@@ -32,10 +32,10 @@ SERVICES = [
     {
         "slug": "fabrica-de-software",
         "name": "Fábrica de Software",
-        "en": "Software Engineering Factory",
+        "sub": "Ingeniería de software gestionada",
         "plane": "nucleo",
         "icon": "layers",
-        "short": "Entrega gestionada por células, con procesos, SLAs y delivery governance.",
+        "short": "Entrega gestionada por células, con procesos, niveles de servicio y gobierno de entrega.",
         "tagline": "Software de producción, entregado con la disciplina de una operación.",
         "lede": "Células de ingeniería gestionadas por Oakmont que diseñan, construyen y evolucionan sus productos digitales con procesos definidos, niveles de servicio acordados y un gobierno de entrega medible.",
         "problems": [
@@ -54,7 +54,7 @@ SERVICES = [
             ("Descubrimiento", "Alcance, arquitectura de solución y backlog priorizado por valor de negocio."),
             ("Conformación de células", "Equipos multidisciplinarios dimensionados al alcance: liderazgo técnico, ingeniería, calidad y DevOps."),
             ("Entrega iterativa", "Incrementos funcionales en ciclos cortos, con demostraciones y métricas de flujo visibles para el cliente."),
-            ("Gobierno y SLAs", "Comité de seguimiento con indicadores de calidad, productividad y cumplimiento de niveles de servicio."),
+            ("Gobierno y niveles de servicio", "Comité de seguimiento con indicadores de calidad, productividad y cumplimiento de niveles de servicio."),
         ],
         "deliverables": [
             "Software en producción con documentación técnica y funcional",
@@ -64,7 +64,7 @@ SERVICES = [
             "Tablero de métricas de entrega y niveles de servicio",
             "Plan de transferencia de conocimiento",
         ],
-        "models": ["Proyecto a precio cerrado", "Célula dedicada con capacidad mensual", "Managed service con SLAs"],
+        "models": ["Proyecto a precio cerrado", "Célula dedicada con capacidad mensual", "Servicio gestionado con niveles de servicio"],
         "outcomes": [
             ("Previsibilidad", "Alcance, plazo y costo gestionados por un solo responsable."),
             ("Velocidad sostenible", "Ciclos de entrega más cortos sin acumular deuda técnica."),
@@ -80,7 +80,7 @@ SERVICES = [
     {
         "slug": "strategy-advisory",
         "name": "Strategy & Advisory",
-        "en": "Technology Strategy",
+        "sub": "Estrategia tecnológica",
         "plane": "nucleo",
         "icon": "compass",
         "short": "Diagnóstico, arquitectura objetivo, roadmap multianual y caso de negocio.",
@@ -120,7 +120,7 @@ SERVICES = [
             ("Continuidad hacia la ejecución", "La estrategia que diseñamos es la misma que podemos ejecutar y de la que respondemos."),
         ],
         "faqs": [
-            ("¿En qué se diferencian de una consultora de estrategia tradicional?", "Integramos advisory y delivery: las recomendaciones se diseñan para ser ejecutables y podemos responder por su implementación."),
+            ("¿En qué se diferencian de una consultora de estrategia tradicional?", "Integramos asesoría y ejecución: las recomendaciones se diseñan para ser ejecutables y podemos responder por su implementación."),
             ("¿Cuánto dura un diagnóstico?", "El diagnóstico estratégico inicial dura dos semanas. Los proyectos de arquitectura y roadmap se dimensionan según el alcance."),
             ("¿Sus recomendaciones son independientes de fabricantes?", "Sí. No dependen de acuerdos comerciales con proveedores de tecnología."),
         ],
@@ -129,7 +129,7 @@ SERVICES = [
     {
         "slug": "staff-augmentation",
         "name": "Staff Augmentation",
-        "en": "Specialized Talent Solutions",
+        "sub": "Talento especializado",
         "plane": "nucleo",
         "icon": "users",
         "short": "Talento senior validado, técnica y culturalmente, con reemplazo garantizado.",
@@ -176,7 +176,7 @@ SERVICES = [
     {
         "slug": "cloud-multicloud",
         "name": "Cloud / Multicloud",
-        "en": "Cloud Modernization",
+        "sub": "Modernización en la nube",
         "plane": "nucleo",
         "icon": "cloud",
         "short": "Estrategia óptima por aplicación bajo el marco 7R — sin recetas únicas.",
@@ -233,7 +233,7 @@ SERVICES = [
     {
         "slug": "data-ai",
         "name": "Data & AI",
-        "en": "Inteligencia Artificial y Datos",
+        "sub": "Inteligencia artificial y datos",
         "plane": "habilitadora",
         "icon": "sparkles",
         "short": "Del dato a la decisión y de la IA a la ventaja operativa, con ROI demostrable.",
@@ -282,7 +282,7 @@ SERVICES = [
     {
         "slug": "cyber-trust",
         "name": "Cyber & Trust",
-        "en": "Ciberseguridad",
+        "sub": "Ciberseguridad",
         "plane": "habilitadora",
         "icon": "shield-check",
         "short": "Seguridad por diseño — no como un control de última hora.",
@@ -332,7 +332,7 @@ SERVICES = [
     {
         "slug": "cloud-operations",
         "name": "Cloud Operations",
-        "en": "DevOps · SRE · FinOps",
+        "sub": "DevOps · SRE · FinOps",
         "plane": "habilitadora",
         "icon": "activity",
         "short": "Plataformas modernas con confiabilidad y eficiencia de costo demostrables.",
@@ -364,7 +364,7 @@ SERVICES = [
             "Runbooks y procedimientos de respuesta",
             "Reporte periódico de niveles de servicio",
         ],
-        "models": ["Evaluación operativa a precio cerrado", "Equipo de plataforma dedicado", "Managed service con SLAs"],
+        "models": ["Evaluación operativa a precio cerrado", "Equipo de plataforma dedicado", "Servicio gestionado con niveles de servicio"],
         "outcomes": [
             ("Confiabilidad", "Disponibilidad medida contra objetivos acordados con el negocio."),
             ("Eficiencia de costo", "Gasto en nube visible, asignado y optimizado de forma continua."),
@@ -380,7 +380,7 @@ SERVICES = [
     {
         "slug": "quality-engineering",
         "name": "Quality Engineering",
-        "en": "QA & Testing",
+        "sub": "Calidad y pruebas de software",
         "plane": "habilitadora",
         "icon": "badge-check",
         "short": "Que el software cumpla antes de impactar al usuario y al negocio.",
@@ -412,7 +412,7 @@ SERVICES = [
             "Tablero de métricas de calidad",
             "Criterios de aceptación y de salida a producción",
         ],
-        "models": ["Evaluación de madurez a precio cerrado", "Equipo de QA dedicado", "QA como servicio con SLAs"],
+        "models": ["Evaluación de madurez a precio cerrado", "Equipo de QA dedicado", "QA como servicio con niveles de servicio"],
         "outcomes": [
             ("Menos defectos en producción", "Errores detectados cuando corregirlos cuesta menos."),
             ("Liberaciones más frecuentes", "Regresión automatizada en lugar de ciclos manuales largos."),
@@ -608,19 +608,19 @@ CASES = [
 # Approach (Enfoque) page
 # --------------------------------------------------------------------------
 HORIZONS = [
-    ("01", "Define", "Strategy & Advisory", "Diagnóstico, arquitectura objetivo y hoja de ruta priorizada por valor.",
+    ("01", "Define", "Estrategia y asesoría", "Diagnóstico, arquitectura objetivo y hoja de ruta priorizada por valor.",
      ["Diagnóstico del estado actual", "Arquitectura objetivo", "Roadmap multianual", "Caso de negocio"]),
-    ("02", "Evolve", "Modernization & Architecture", "Rediseño de capacidades y transición del estado actual al estado objetivo.",
+    ("02", "Evolve", "Modernización y arquitectura", "Rediseño de capacidades y transición del estado actual al estado objetivo.",
      ["Modernización de aplicaciones", "Migración y fundamentos de nube", "Plataformas de datos", "Arquitectura de seguridad"]),
-    ("03", "Deliver", "Engineering & Operations", "Ingeniería, integración, despliegue y operación gestionada.",
+    ("03", "Deliver", "Ingeniería y operación", "Ingeniería, integración, despliegue y operación gestionada.",
      ["Fábrica de software", "Talento especializado", "Operación de plataformas", "Calidad continua"]),
 ]
 
 LAYER = [
-    ("Governance", "Un comité, un responsable y un tablero de indicadores para toda la iniciativa."),
-    ("Quality", "Criterios de calidad definidos antes de construir y verificados en cada entrega."),
-    ("Security", "Controles de seguridad integrados desde el diseño, no añadidos al final."),
-    ("Innovation", "Evaluación continua de tecnologías emergentes, incluida la IA, con criterio de negocio."),
+    ("Gobierno", "Un comité, un responsable y un tablero de indicadores para toda la iniciativa."),
+    ("Calidad", "Criterios de calidad definidos antes de construir y verificados en cada entrega."),
+    ("Seguridad", "Controles de seguridad integrados desde el diseño, no añadidos al final."),
+    ("Innovación", "Evaluación continua de tecnologías emergentes, incluida la IA, con criterio de negocio."),
 ]
 
 PHASES = [
@@ -635,17 +635,17 @@ PHASES = [
 ]
 
 GOVERNANCE = [
-    ("Steering", "Comité ejecutivo con el patrocinador del cliente para decisiones de alcance, prioridad y riesgo."),
+    ("Comité directivo", "Comité ejecutivo con el patrocinador del cliente para decisiones de alcance, prioridad y riesgo."),
     ("Gestión de riesgos", "Registro de riesgos vivo, con responsables y planes de mitigación revisados en cada comité."),
-    ("Reporting ejecutivo", "Tablero de avance, calidad, costo y niveles de servicio, con la misma información para todos."),
-    ("Single point of accountability", "Un responsable de Oakmont que responde por el resultado de principio a fin."),
+    ("Reporte ejecutivo", "Tablero de avance, calidad, costo y niveles de servicio, con la misma información para todos."),
+    ("Un solo responsable", "Un responsable de Oakmont que responde por el resultado de principio a fin."),
 ]
 
 CONTRACTS = [
     ("Proyecto", "Alcance y entregables definidos, a precio cerrado.", "Iniciativas con objetivos y alcance claros."),
     ("Capacidad dedicada", "Una célula de Oakmont con capacidad mensual y prioridades que usted define.", "Backlogs continuos que evolucionan con el negocio."),
-    ("Staff", "Profesionales validados que se integran a sus equipos.", "Cubrir perfiles específicos o picos de demanda."),
-    ("Managed service", "Operación de un servicio con niveles de servicio acordados.", "Aplicaciones o plataformas que requieren operación continua."),
+    ("Talento especializado", "Profesionales validados que se integran a sus equipos.", "Cubrir perfiles específicos o picos de demanda."),
+    ("Servicio gestionado", "Operación de un servicio con niveles de servicio acordados.", "Aplicaciones o plataformas que requieren operación continua."),
 ]
 
 MEASURES = [
@@ -658,11 +658,11 @@ MEASURES = [
 # About
 # --------------------------------------------------------------------------
 REASONS = [
-    ("01", "Advisory-to-engineering bajo un solo techo", "Respondemos por la estrategia que ejecutamos. Quien diseña la solución forma parte de quien la construye y la opera."),
+    ("01", "De la asesoría a la ingeniería, bajo un solo techo", "Respondemos por la estrategia que ejecutamos. Quien diseña la solución forma parte de quien la construye y la opera."),
     ("02", "Talento senior validado", "Experiencia real en entornos de alta exigencia. Cada profesional pasa una evaluación técnica práctica y de ajuste cultural."),
     ("03", "Neutralidad tecnológica y multicloud", "Independencia al servicio del negocio. Recomendamos la tecnología que conviene a cada caso, no la que conviene a un acuerdo comercial."),
     ("04", "IA e innovación embebidas", "Preparamos a la organización para el siguiente ciclo, incorporando IA donde genera valor medible."),
-    ("05", "Accountability por outcomes", "Time-to-market, costo y riesgo como métricas de éxito, acordadas antes de empezar."),
+    ("05", "Responsabilidad por resultados", "Time-to-market, costo y riesgo como métricas de éxito, acordadas antes de empezar."),
 ]
 
 DIAGNOSTIC = {
