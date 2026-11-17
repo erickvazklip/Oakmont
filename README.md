@@ -1,63 +1,68 @@
-# Oakmont Services — Página principal
+# Oakmont Services — Sitio web
 
-Landing page estática (one-pager) de **Oakmont Services**, consultora de TI.
+Sitio corporativo de **Oakmont Services**, consultora de TI.
 _Architecting Technology Advantage._
 
-Sin framework, sin paso de build: HTML, CSS y un único archivo JS.
+HTML estático, sin framework. El contenido vive en un solo archivo de datos y un
+script de Python (solo librería estándar) genera las páginas. El HTML generado se
+versiona, así que el hosting no necesita paso de build.
 
-## Estructura
+## Mapa del sitio
 
 ```
-.
-├── index.html        # Página principal
-├── css/
-│   └── styles.css    # Tokens de marca + estilos de página y responsive
-├── js/
-│   └── main.js       # Revelados únicos, header, sección activa y menú móvil
-└── images/           # Imágenes del sitio (signage, stairs, reception, meeting, globe, wave)
+/                                   Inicio
+/servicios/                         Índice de servicios
+/servicios/<servicio>/              8 páginas de detalle
+/industrias/                        Índice de industrias
+/industrias/<industria>/            3 páginas de detalle
+/casos/                             Índice de casos
+/casos/<caso>/                      3 casos detallados
+/enfoque/                           Framework, engagement, gobierno, contratos
+/nosotros/                          Quiénes somos, principios, talento
+/diagnostico/                       Diagnóstico estratégico de dos semanas
+/contacto/                          Formulario de contacto
+/aviso-de-privacidad/               Aviso de privacidad
+/404.html                           Página no encontrada
+sitemap.xml · robots.txt · favicon.svg · images/og.jpg
 ```
 
-## Experiencia
+## Editar contenido
 
-Movimiento mínimo y con intención: solo se anima lo que refuerza el discurso.
+1. Edita `build/content.py` (servicios, industrias, casos, enfoque, datos del sitio).
+2. Regenera: `python3 build/build.py`
+3. Revisa localmente y haz commit de los archivos generados.
 
-| Animación | Qué comunica |
-|---|---|
-| Entrada del titular al cargar (una vez) | Presenta la marca |
-| Diagrama de horizontes que se dibuja de adentro hacia afuera | Define → Evolve → Deliver, todo dentro de un mismo gobierno |
-| Línea dorada que recorre Assess → Sustain | Un solo responsable de principio a fin |
-| Aparición breve de cada bloque (600 ms, 16 px) | Ritmo de lectura |
+`css/styles.css` y `js/main.js` se editan directamente.
 
-Sin pines de scroll, parallax, scroll horizontal ni animaciones infinitas. Con
-`prefers-reduced-motion` todo aparece directamente, y sin JS el contenido es visible.
+## Antes de publicar
+
+- **Aviso de privacidad:** completar `legal_name` y `legal_address` en `SITE`
+  (`build/content.py`) y regenerar.
+- **Dominio:** `SITE["domain"]` se usa en canonical, Open Graph y `sitemap.xml`.
+- **LinkedIn:** confirmar la URL en `SITE["linkedin"]`.
+- **Formulario:** hoy abre el cliente de correo del visitante con el mensaje
+  listo (`mailto:`). Para recibir envíos directamente, conectar un servicio de
+  formularios (p. ej. Formspree o Netlify Forms) y cambiar el `action` del
+  formulario en `build_contact()`.
+- **Hosting:** publicar en la raíz de un dominio (la 404 usa rutas absolutas).
 
 ## Desarrollo local
 
-No requiere instalación. Sirve la carpeta con cualquier servidor estático:
-
 ```bash
 python3 -m http.server 8000
-# o
-npx serve .
 ```
 
-Luego abre <http://localhost:8000>.
+Abre <http://localhost:8000>. Ábrelo a través de un servidor (no con `file://`)
+para que funcionen las rutas de carpetas.
 
-> Nota: ábrelo a través de un servidor (no con `file://`) para que se carguen
-> correctamente las rutas relativas de CSS, JS e imágenes.
+## Movimiento
 
-## Dependencias externas (vía CDN)
+Solo se anima lo que refuerza el discurso: entrada del titular, diagrama de
+horizontes que se dibuja una vez, línea que recorre las fases del modelo y
+apariciones breves de cada bloque. Con `prefers-reduced-motion` todo aparece
+directamente, y sin JS el contenido es visible.
 
-- **Tipografías:** [Cinzel](https://fonts.google.com/specimen/Cinzel) y
-  [Montserrat](https://fonts.google.com/specimen/Montserrat) (Google Fonts).
-- **Iconos:** [Lucide](https://lucide.dev) (`unpkg`).
+## Dependencias externas
 
-## Despliegue
-
-Compatible con cualquier hosting estático: GitHub Pages, Netlify, Vercel o
-Cloudflare Pages. Basta con publicar la raíz del repositorio.
-
-## Origen
-
-Diseñado en Claude Design y exportado a HTML/CSS/JS estándar, eliminando el
-runtime del editor y las dependencias propietarias.
+- Tipografías: Cinzel y Montserrat (Google Fonts).
+- Íconos: Lucide 0.456.0 (unpkg).

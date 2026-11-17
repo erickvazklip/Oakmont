@@ -10,3 +10,5 @@ Oakmont página principal elegante/
 *.dc.html
 *.standalone.html
 support.js
+
+__pycache__/
