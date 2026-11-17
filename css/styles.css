@@ -945,3 +945,8 @@ a.case:hover { border-color: var(--gold-deep); }
   .nav__links, .nav__cta { display: none; }
   .sevenr li:last-child { grid-column: span 2; }
 }
+
+/* honeypot: off-screen, never visible */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form { position: relative; }
+.form__ok { font-size: 16px; padding: 20px 22px; background: #fff; border: 1px solid rgba(26,26,26,.08); border-left: 3px solid var(--gold-deep); border-radius: 6px; }

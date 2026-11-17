@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Leads | Oakmont Services</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400&family=Montserrat:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body { background: var(--oak-paper); color: var(--ink); }
+    .adm-top { background: var(--ink); color: var(--oak-ivory); }
+    .adm-top .container { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 20px; }
+    .adm-top__title { font-size: 11px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+    .adm { padding: 48px 0 96px; }
+    .adm h1 { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; font-size: clamp(28px, 3vw, 40px); letter-spacing: .02em; }
+    .adm-login { max-width: 420px; margin: 40px 0; display: flex; flex-direction: column; gap: 18px; }
+    .adm-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 28px 0 20px; }
+    .adm-bar input { flex: 1 1 260px; font: inherit; font-size: 15px; padding: 11px 14px; border: 1px solid rgba(26,26,26,.18); border-radius: 6px; background: #fff; }
+    .adm-count { font-size: 13px; color: var(--text-muted); }
+    .adm-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid rgba(26,26,26,.08); border-radius: 8px; overflow: hidden; }
+    .adm-table th, .adm-table td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line-light); font-size: 14px; vertical-align: top; }
+    .adm-table th { font-size: 10.5px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); background: var(--oak-mist); }
+    .adm-table tr.lead { cursor: pointer; }
+    .adm-table tr.lead:hover td { background: #FBFAF7; }
+    .adm-table .msg td { background: #FBFAF7; white-space: pre-wrap; line-height: 1.65; color: var(--oak-graphite); }
+    .adm-del { border: 1px solid rgba(138,90,68,.4); color: #8A5A44; background: none; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 12px; cursor: pointer; }
+    .adm-wrap { overflow-x: auto; }
+    .adm-empty { padding: 40px; text-align: center; color: var(--text-muted); background: #fff; border-radius: 8px; }
+    .adm-err { color: #8A5A44; font-size: 14px; }
+    .btn--line-dark { border: 1px solid rgba(26,26,26,.25); color: var(--ink); background: transparent; }
+    .btn--line-dark:hover { border-color: var(--ink); }
+  </style>
+</head>
+<body>
+  <header class="adm-top">
+    <div class="container">
+      <a href="../" class="wordmark" aria-label="Oakmont Services — sitio"><span class="wordmark__name">OAKMONT</span><span class="wordmark__sub">SERVICES</span></a>
+      <span class="adm-top__title">Panel de leads</span>
+    </div>
+  </header>
+
+  <main class="adm container">
+    <h1>Leads del formulario de contacto</h1>
+
+    <form class="adm-login" id="login" hidden>
+      <label class="field"><span>Contraseña de administración</span><input type="password" name="pw" autocomplete="current-password" required></label>
+      <button class="btn btn--dark btn--lg" type="submit">Entrar</button>
+      <p class="adm-err" id="login-err" role="alert" hidden></p>
+    </form>
+
+    <section id="panel" hidden>
+      <div class="adm-bar">
+        <input type="search" id="q" placeholder="Buscar por nombre, empresa, correo o tema" aria-label="Buscar leads">
+        <button class="btn btn--dark btn--sm" id="csv" type="button">Exportar CSV</button>
+        <button class="btn btn--line-dark btn--sm" id="reload" type="button">Actualizar</button>
+        <button class="btn btn--line-dark btn--sm" id="logout" type="button">Salir</button>
+        <span class="adm-count" id="count" aria-live="polite"></span>
+      </div>
+      <div class="adm-wrap">
+        <table class="adm-table">
+          <thead><tr><th scope="col">Fecha</th><th scope="col">Nombre</th><th scope="col">Empresa</th><th scope="col">Cargo</th><th scope="col">Correo</th><th scope="col">Teléfono</th><th scope="col">Interés</th><th scope="col"><span class="hp">Acciones</span></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="adm-empty" id="empty" hidden>Todavía no hay leads registrados.</p>
+      <p class="adm-err" id="panel-err" role="alert" hidden></p>
+    </section>
+  </main>
+
+  <script src="../js/admin.js" defer></script>
+</body>
+</html>

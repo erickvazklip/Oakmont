@@ -1,0 +1,15 @@
+{
+  "name": "oakmont-services-site",
+  "private": true,
+  "type": "module",
+  "description": "Sitio de Oakmont Services: HTML estático + funciones de Vercel para el formulario de contacto.",
+  "scripts": {
+    "build:site": "python3 build/build.py"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.9.0"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

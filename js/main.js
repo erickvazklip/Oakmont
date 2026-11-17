@@ -108,40 +108,61 @@
     });
   });
 
-  /* ---------- Contact form: validate, then compose an email ---------- */
+  /* ---------- Contact form: validate, then POST to /api/contacto ---------- */
   var form = document.getElementById('contact-form');
   if (form) {
     var params = new URLSearchParams(window.location.search);
+    var okBox = form.querySelector('.form__ok');
+    var errBox = form.querySelector('.form__error');
     var pre = params.get('interes');
-    if (pre && form.interes.querySelector('option[value="' + pre.replace(/[^a-z0-9-]/g, '') + '"]')) {
-      form.interes.value = pre;
-    }
+    if (pre && form.interes.querySelector('option[value="' + pre.replace(/[^a-z0-9-]/g, '') + '"]')) form.interes.value = pre;
+    if (params.get('enviado')) okBox.hidden = false;
+    if (params.get('error')) { errBox.textContent = 'No pudimos registrar su mensaje. Revise los campos o escríbanos a contacto@oakmontservices.com.'; errBox.hidden = false; }
+    form.ts.value = String(Date.now());
+    form.pagina_origen.value = document.referrer || window.location.href;
+
     form.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var ok = true;
       form.querySelectorAll('[required]').forEach(function (el) {
-        var valid = el.type === 'checkbox' ? el.checked : el.value.trim() !== '' && (el.type !== 'email' || /.+@.+\..+/.test(el.value));
+        var valid = el.type === 'checkbox' ? el.checked : el.value.trim() !== '' && (el.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(el.value.trim()));
         var wrap = el.closest('.field, .check');
         if (wrap) wrap.classList.toggle('is-invalid', !valid);
         if (!valid && ok) { el.focus(); ok = false; }
       });
-      form.querySelector('.form__error').hidden = ok;
+      errBox.textContent = 'Revise los campos marcados con *.';
+      errBox.hidden = ok;
       if (!ok) return;
-      var topic = form.interes.options[form.interes.selectedIndex].text;
-      var lines = [
-        'Nombre: ' + form.nombre.value,
-        'Correo: ' + form.correo.value,
-        'Empresa: ' + form.empresa.value,
-        'Cargo: ' + form.cargo.value,
-        'Teléfono: ' + form.telefono.value,
-        'Tema: ' + topic,
-        '',
-        form.mensaje.value
-      ];
-      var to = form.getAttribute('action').replace('mailto:', '');
-      var subject = 'Contacto web — ' + topic + ' — ' + form.empresa.value;
-      window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
-      form.querySelector('.form__ok').hidden = false;
+
+      form.interes_label.value = form.interes.options[form.interes.selectedIndex].text;
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = v; });
+      data.privacidad = form.privacidad.checked;
+
+      var btn = form.querySelector('button[type=submit]');
+      btn.disabled = true; btn.textContent = 'Enviando…';
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (!r.ok || !j.ok) throw new Error(j.error || 'Error ' + r.status);
+        });
+      }).then(function () {
+        form.reset();
+        form.ts.value = String(Date.now());
+        form.querySelectorAll('.field, .check').forEach(function (w) { w.style.display = 'none'; });
+        form.querySelectorAll('.form__row, .form__actions').forEach(function (w) { w.style.display = 'none'; });
+        okBox.hidden = false;
+        okBox.setAttribute('tabindex', '-1');
+        okBox.focus();
+      }).catch(function (err) {
+        errBox.textContent = (err && err.message && err.message.indexOf('Error ') !== 0 ? err.message : 'No pudimos enviar su mensaje.') + ' Si el problema continúa, escríbanos a contacto@oakmontservices.com.';
+        errBox.hidden = false;
+      }).then(function () {
+        btn.disabled = false; btn.textContent = 'Enviar mensaje';
+      });
     });
   }
 

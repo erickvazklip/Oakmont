@@ -903,27 +903,31 @@ def build_contact():
                  "Cuéntenos su contexto y el reto que enfrenta. Un socio de Oakmont le responderá en un máximo de dos días hábiles.") + f'''
 <section class="section section--paper">
   <div class="container with-aside">
-    <form class="form rv" id="contact-form" action="mailto:{C.SITE["email"]}" method="post" enctype="text/plain" novalidate>
+    <form class="form rv" id="contact-form" action="/api/contacto" method="post" novalidate>
+      <p class="form__ok" role="status" hidden>Gracias. Recibimos su mensaje y un socio de Oakmont le responderá en un máximo de dos días hábiles.</p>
       <div class="form__row">
-        <label class="field"><span>Nombre completo *</span><input name="nombre" autocomplete="name" required></label>
-        <label class="field"><span>Correo corporativo *</span><input name="correo" type="email" autocomplete="email" required></label>
+        <label class="field"><span>Nombre completo *</span><input name="nombre" autocomplete="name" maxlength="120" required></label>
+        <label class="field"><span>Correo corporativo *</span><input name="correo" type="email" autocomplete="email" maxlength="160" required></label>
       </div>
       <div class="form__row">
-        <label class="field"><span>Empresa *</span><input name="empresa" autocomplete="organization" required></label>
-        <label class="field"><span>Cargo</span><input name="cargo" autocomplete="organization-title"></label>
+        <label class="field"><span>Empresa *</span><input name="empresa" autocomplete="organization" maxlength="160" required></label>
+        <label class="field"><span>Cargo</span><input name="cargo" autocomplete="organization-title" maxlength="120"></label>
       </div>
       <div class="form__row">
-        <label class="field"><span>Teléfono</span><input name="telefono" type="tel" autocomplete="tel"></label>
+        <label class="field"><span>Teléfono</span><input name="telefono" type="tel" autocomplete="tel" maxlength="40"></label>
         <label class="field"><span>Tema de interés *</span><select name="interes" required>{opts}</select></label>
       </div>
-      <label class="field"><span>¿Qué reto quiere resolver? *</span><textarea name="mensaje" rows="6" required></textarea></label>
+      <label class="field"><span>¿Qué reto quiere resolver? *</span><textarea name="mensaje" rows="6" maxlength="5000" required></textarea></label>
+      <div class="hp" aria-hidden="true"><label>No llene este campo <input name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="ts" value="">
+      <input type="hidden" name="interes_label" value="">
+      <input type="hidden" name="pagina_origen" value="">
       <label class="check"><input type="checkbox" name="privacidad" required><span>He leído y acepto el <a href="{r}aviso-de-privacidad/">aviso de privacidad</a>. *</span></label>
       <p class="form__error" role="alert" hidden>Revise los campos marcados con *.</p>
       <div class="form__actions">
         <button class="btn btn--dark btn--lg" type="submit">Enviar mensaje</button>
-        <p class="form__note">Al enviar se abrirá su cliente de correo con el mensaje listo.</p>
+        <p class="form__note">Sus datos se usan solo para responder a su solicitud.</p>
       </div>
-      <p class="form__ok" role="status" hidden>Gracias. Si su cliente de correo no se abrió, escríbanos a <a href="mailto:{C.SITE["email"]}">{C.SITE["email"]}</a>.</p>
     </form>
     <aside class="aside rv" aria-label="Otras formas de contacto">
       <p class="aside__h">Correo</p>
@@ -960,7 +964,7 @@ def build_privacy():
       <p>Finalidades primarias: atender su solicitud de contacto, agendar reuniones, elaborar propuestas de servicios y dar seguimiento a la relación comercial.</p>
       <p>Finalidades secundarias: enviarle información sobre servicios, publicaciones o eventos de Oakmont Services. Si no desea que sus datos se usen para estas finalidades, puede indicarlo en cualquier momento escribiendo a <a href="mailto:{S["email"]}">{S["email"]}</a>.</p>
       <h2>Transferencias</h2>
-      <p>No transferimos sus datos personales a terceros sin su consentimiento, salvo en los casos previstos por la ley. Podemos apoyarnos en proveedores de servicios tecnológicos (por ejemplo, correo electrónico y alojamiento) que tratan los datos por cuenta de Oakmont Services y bajo obligaciones de confidencialidad.</p>
+      <p>No transferimos sus datos personales a terceros sin su consentimiento, salvo en los casos previstos por la ley. Los datos enviados mediante el formulario se almacenan en la infraestructura de Vercel Inc., proveedor de alojamiento del sitio, que los trata por cuenta de Oakmont Services. También podemos apoyarnos en otros proveedores de servicios tecnológicos, como correo electrónico, bajo obligaciones de confidencialidad.</p>
       <h2>Derechos ARCO</h2>
       <p>Usted puede acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales, así como revocar su consentimiento, enviando una solicitud a <a href="mailto:{S["email"]}">{S["email"]}</a> con su nombre, un medio para comunicarle la respuesta, la descripción clara de los datos y el derecho que desea ejercer, y una copia de su identificación. Responderemos en los plazos que establece la ley.</p>
       <h2>Cookies y tecnologías similares</h2>
@@ -996,7 +1000,7 @@ def build_meta():
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write(f"User-agent: *\nAllow: /\n\nSitemap: {C.SITE['domain']}/sitemap.xml\n")
+        f.write(f"User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: {C.SITE['domain']}/sitemap.xml\n")
 
 
 if __name__ == "__main__":

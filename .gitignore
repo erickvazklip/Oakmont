@@ -12,3 +12,5 @@ Oakmont página principal elegante/
 support.js
 
 __pycache__/
+node_modules/
+.vercel/
