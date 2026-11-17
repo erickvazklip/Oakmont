@@ -950,3 +950,6 @@ a.case:hover { border-color: var(--gold-deep); }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form { position: relative; }
 .form__ok { font-size: 16px; padding: 20px 22px; background: #fff; border: 1px solid rgba(26,26,26,.08); border-left: 3px solid var(--gold-deep); border-radius: 6px; }
+
+/* the hidden attribute always wins over component display rules */
+[hidden] { display: none !important; }

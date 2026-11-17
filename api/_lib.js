@@ -34,7 +34,9 @@ export function toCSV(rows) {
   const esc = (v) => {
     const s = v == null ? '' : String(v);
     // Neutralise spreadsheet formula injection.
-    const safe = /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
+    // Phone numbers like "+52 55..." or "-5" stay as they are.
+    const risky = /^[=@\t\r]/.test(s) || (/^[+\-]/.test(s) && !/^[+\-][\d\s().]+$/.test(s));
+    const safe = risky ? "'" + s : s;
     return '"' + safe.replace(/"/g, '""') + '"';
   };
   const head = FIELDS.map(([, label]) => esc(label)).join(',');

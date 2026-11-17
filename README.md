@@ -40,11 +40,30 @@ sitemap.xml · robots.txt · favicon.svg · images/og.jpg
   (`build/content.py`) y regenerar.
 - **Dominio:** `SITE["domain"]` se usa en canonical, Open Graph y `sitemap.xml`.
 - **LinkedIn:** confirmar la URL en `SITE["linkedin"]`.
-- **Formulario:** hoy abre el cliente de correo del visitante con el mensaje
-  listo (`mailto:`). Para recibir envíos directamente, conectar un servicio de
-  formularios (p. ej. Formspree o Netlify Forms) y cambiar el `action` del
-  formulario en `build_contact()`.
-- **Hosting:** publicar en la raíz de un dominio (la 404 usa rutas absolutas).
+- **Hosting:** Vercel (ver «Despliegue»). Publicar en la raíz de un dominio.
+
+## Formulario de contacto y leads
+
+- `POST /api/contacto` valida los datos, descarta spam (campo trampa y tiempo
+  mínimo de llenado) y guarda cada lead como JSON **privado** en Vercel Blob
+  (`leads/AAAA-MM/...json`). Funciona también sin JavaScript.
+- `/admin/` es el panel de leads (no indexable): buscar, leer el mensaje,
+  **exportar a CSV** (abre directo en Excel) y eliminar un lead.
+- `GET /api/leads` (JSON) y `GET /api/leads?format=csv` requieren
+  `Authorization: Bearer <ADMIN_PASSWORD>`; sirven para conectar un CRM o
+  una hoja de cálculo.
+- Pruebas: `npm install && npm test`.
+
+## Despliegue en Vercel
+
+1. **Importar el repositorio:** vercel.com → Add New → Project → `erickvazklip/Oakmont`.
+   Framework: *Other*. Sin comando de build. Directorio de salida: raíz.
+2. **Almacén:** en el proyecto → Storage → Create → **Blob**, acceso **Private** →
+   Connect to project. Esto crea `BLOB_READ_WRITE_TOKEN` automáticamente.
+3. **Contraseña del panel:** Settings → Environment Variables →
+   `ADMIN_PASSWORD` (tipo *Sensitive*, entorno Production). Use una frase larga.
+4. **Redeploy** para que la función tome las variables.
+5. **Dominio:** Settings → Domains → `oakmontservices.com`.
 
 ## Desarrollo local
 
