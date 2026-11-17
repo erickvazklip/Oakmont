@@ -11,6 +11,7 @@ The generated files are committed, so hosting needs no build step.
 """
 import json
 import os
+import re
 import sys
 from html import escape
 
@@ -22,6 +23,18 @@ SVC = {s["slug"]: s for s in C.SERVICES}
 IND = {i["slug"]: i for i in C.INDUSTRIES}
 CASE = {c["slug"]: c for c in C.CASES}
 PAGES = []  # for sitemap
+
+
+LINK_RE = re.compile(r'href="(?!https?:|mailto:|tel:|#)([^"?#]*)([?#][^"]*)?"')
+
+
+def explicit_index(html):
+    def fix(m):
+        base, rest = m.group(1), m.group(2) or ""
+        if base == "" or base.endswith("/"):
+            base += "index.html"
+        return f'href="{base}{rest}"'
+    return LINK_RE.sub(fix, html)
 
 
 def e(s):
@@ -207,6 +220,9 @@ def write(path, title, desc, body, active="", crumbs=None, home=False, ld=None, 
 </body>
 </html>
 '''
+    # Point every internal folder link at its index.html so navigation works on
+    # any host, including previews that do not resolve directory indexes.
+    html = explicit_index(html)
     out = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
