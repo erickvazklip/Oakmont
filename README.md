@@ -11,11 +11,34 @@ Sin framework, sin paso de build: HTML, CSS y un único archivo JS.
 .
 ├── index.html        # Página principal
 ├── css/
-│   └── styles.css    # Design system (tokens + componentes) + estilos de página
+│   └── styles.css    # Tokens de marca + capa de experiencia (escenas, motion, responsive)
 ├── js/
-│   └── main.js       # Scroll reveals, header sticky, parallax, hover, iconos
+│   └── main.js       # Motor de escenas sin dependencias (scroll, reveals, canvas, menú)
 └── images/           # Imágenes del sitio (signage, stairs, reception, meeting, globe, wave)
 ```
+
+## Experiencia
+
+Narrativa por escenas ligadas al scroll. Lenguaje de motion: *luz que recorre piedra*
+(revelados por máscara, lentos y precisos).
+
+| Escena | Comportamiento |
+|---|---|
+| Hero | Fijo; el titular se disuelve y el letrero avanza al desplazar. Retícula de puntos en canvas que se ilumina con el cursor |
+| Manifiesto | La frase se ilumina palabra por palabra al ritmo del scroll |
+| Visión | Tres fuerzas con revelado escalonado |
+| Value at stake | Una ventana (clip-path) se abre hasta cubrir la pantalla |
+| Enfoque | Split editorial con imagen en parallax y pilares |
+| Framework | Scroll fijo: Define / Evolve / Deliver encienden un diagrama de horizontes |
+| Capacidades | Bento de 8 capacidades con luz que sigue al cursor |
+| Modelo | Recorrido horizontal fijo (desktop) / swipe con snap (móvil) |
+| Cifras · Razones · Casos | Revelado por máscara, filas con trazo dorado, tarjetas apiladas |
+| CTA | Botón magnético |
+
+Todo el movimiento lo controla una sola variable CSS (`--p`, 0 → 1) que escribe
+`js/main.js` en un único `requestAnimationFrame`. Solo se animan `transform`,
+`opacity`, `filter` y `clip-path`. Con `prefers-reduced-motion` todas las escenas
+se resuelven a su estado final legible, y sin JS el contenido es visible.
 
 ## Desarrollo local
 
