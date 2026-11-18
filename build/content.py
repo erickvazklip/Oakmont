@@ -18,7 +18,6 @@ SITE = {
     "tagline": "Architecting Technology Advantage",
     "domain": "https://oakmontservices.com",
     "email": "contacto@oakmontservices.com",
-    "linkedin": "https://www.linkedin.com/company/oakmont-services",
     "description": "Consultoría en tecnologías de la información. Estrategia, arquitectura e ingeniería bajo un modelo de gobierno único, de la estrategia a la producción.",
     # Completar antes de publicar el aviso de privacidad:
     "legal_name": "[Razón social de Oakmont Services]",

@@ -90,6 +90,14 @@ python3 build/build.py --preview /ruta     # (opcional) copia con enlaces a inde
 4. **Redeploy** para que las funciones tomen las variables.
 5. **Dominio:** Settings → Domains → `oakmontservices.com`.
 
+## Pendiente antes de producción
+
+1. **Datos legales del aviso de privacidad:** completar `legal_name` y
+   `legal_address` en `SITE` (`build/content.py`) y regenerar. Mientras falten,
+   `build.py` lo advierte en cada ejecución. Conviene una revisión legal del texto.
+2. **Despliegue en Vercel:** pasos en «Despliegue en Vercel». Después, probar
+   un envío real y su aparición en `/admin/`.
+
 ## Desarrollo local
 
 ```bash

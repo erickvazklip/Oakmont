@@ -158,7 +158,6 @@ def footer(r):
       </nav>
       <div><p class="footer__h">Contacto</p>
         <a href="mailto:{C.SITE["email"]}">{C.SITE["email"]}</a>
-        <a href="{C.SITE["linkedin"]}" rel="noopener" target="_blank">LinkedIn</a>
       </div>
     </div>
   </div>
@@ -465,7 +464,7 @@ def build_home():
         "@context": "https://schema.org", "@type": "Organization",
         "name": C.SITE["name"], "url": C.SITE["domain"] + "/", "email": C.SITE["email"],
         "slogan": C.SITE["tagline"], "description": C.SITE["description"],
-        "logo": C.SITE["domain"] + "/favicon.svg", "sameAs": [C.SITE["linkedin"]],
+        "logo": C.SITE["domain"] + "/favicon.svg",
     }
     write("index.html", "Oakmont Services — Architecting Technology Advantage", C.SITE["description"],
           body, home=True, ld=[org])
@@ -964,8 +963,6 @@ def build_contact():
     <aside class="aside rv" aria-label="Otras formas de contacto">
       <p class="aside__h">Correo</p>
       <p><a href="mailto:{C.SITE["email"]}">{C.SITE["email"]}</a></p>
-      <p class="aside__h">LinkedIn</p>
-      <p><a href="{C.SITE["linkedin"]}" rel="noopener" target="_blank">Oakmont Services</a></p>
       <p class="aside__h">Qué pasa después</p>
       <ol class="steps-mini">
         <li>Revisamos su mensaje y lo asignamos a un especialista en su tema.</li>
@@ -1064,4 +1061,8 @@ if __name__ == "__main__":
     build_privacy()
     build_404()
     build_meta()
+    pending = [k for k in ("legal_name", "legal_address") if C.SITE[k].startswith("[")]
+    if pending:
+        print("AVISO: complete SITE[" + "], SITE[".join(pending) + "] en build/content.py "
+              "antes de publicar en producción (aviso de privacidad).")
     print(f"Generated {len(PAGES) + 1} pages + sitemap.xml + robots.txt in {OUT}")
