@@ -5,7 +5,7 @@
    2. Base              9. Page hero & breadcrumbs
    3. Type              10. Cards & grids
    4. Buttons & links   11. Detail blocks
-   5. Reveal motion     12. Forms
+   5. Motion & cursor   12. Forms
    6. Navigation        13. Footer
    7. Layout            14. Admin panel
                         15. Responsive & reduced motion
@@ -133,7 +133,7 @@ a { color: inherit; }
 .link-arrow--dark { color: var(--ink); }
 .link-arrow--dark .icon, .link-arrow--dark:hover { color: var(--gold-text); }
 
-/* ---------- 5. Reveal motion (only once JS runs: html.js) ---------- */
+/* ---------- 5. Motion & cursor (only once JS runs: html.js) ---------- */
 .js .rv {
   opacity: 0; transform: translateY(var(--rise));
   transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out), border-color var(--dur-base);
@@ -148,6 +148,21 @@ a { color: inherit; }
 .js .lines > span:nth-child(2) > span { transition-delay: 90ms; }
 .js .lines > span:nth-child(3) > span { transition-delay: 180ms; }
 .js .lines.is-in > span > span { transform: none; }
+
+/* cursor (fine pointers only; added by js/main.js) */
+.has-cursor, .has-cursor * { cursor: none; }
+.has-cursor input:not([type="checkbox"]):not([type="radio"]), .has-cursor textarea { cursor: text; }
+.cursor { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0; transition: opacity var(--dur-base); }
+.cursor.is-visible { opacity: 1; }
+.cursor.is-text { opacity: 0; }
+.cursor__ring, .cursor__dot { position: absolute; top: 0; left: 0; will-change: transform; }
+.cursor__ring::after, .cursor__dot::after { content: ""; position: absolute; border-radius: 50%; transition: transform var(--dur-base) var(--ease-out), background-color var(--dur-base), border-color var(--dur-base); }
+.cursor__ring::after { width: 34px; height: 34px; margin: -17px 0 0 -17px; border: 1px solid rgba(168, 150, 111, .7); }
+.cursor__dot::after { width: 6px; height: 6px; margin: -3px 0 0 -3px; background: var(--gold-deep); }
+.cursor.is-link .cursor__ring::after { transform: scale(1.6); background: rgba(168, 150, 111, .14); border-color: var(--gold-deep); }
+.cursor.is-link .cursor__dot::after { transform: scale(0); }
+.cursor.is-down .cursor__ring::after { transform: scale(.8); }
+.cursor.is-link.is-down .cursor__ring::after { transform: scale(1.35); }
 
 /* ---------- 6. Navigation ---------- */
 .wordmark { display: inline-flex; flex-direction: column; line-height: 1; text-decoration: none; color: var(--ivory); }

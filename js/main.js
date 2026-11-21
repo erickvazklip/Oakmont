@@ -2,7 +2,7 @@
    Oakmont Services — interactions
    ------------------------------------------------------------
    Small on purpose: one-time reveals, header state, dropdowns,
-   mobile menu and the contact form. No scroll-linked animation.
+   mobile menu, contact form and the cursor. No scroll-linked animation.
    Every page is fully readable if this file never runs.
    ============================================================ */
 (function () {
@@ -138,5 +138,37 @@
         btn.disabled = false; btn.textContent = label;
       });
     });
+  }
+  /* ---------- Cursor: gold dot + trailing ring, echoing the diagrams' orbits ---------- */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var cur = document.createElement('div');
+    cur.className = 'cursor';
+    cur.setAttribute('aria-hidden', 'true');
+    cur.innerHTML = '<span class="cursor__ring"></span><span class="cursor__dot"></span>';
+    document.body.appendChild(cur);
+    document.documentElement.classList.add('has-cursor');
+    var ring = cur.firstChild, dotEl = cur.lastChild;
+    var x = -100, y = -100, rx = x, ry = y, raf = null, follow = reduced ? 1 : 0.2;
+    var place = function (el, px, py) { el.style.transform = 'translate3d(' + px + 'px,' + py + 'px,0)'; };
+    var trail = function () {
+      rx += (x - rx) * follow; ry += (y - ry) * follow;
+      place(ring, rx.toFixed(1), ry.toFixed(1));
+      raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.2 ? requestAnimationFrame(trail) : null;
+    };
+    var interactive = 'a, button, summary, select, label, [role="button"]';
+    var textual = 'input:not([type="checkbox"]):not([type="radio"]), textarea';
+    document.addEventListener('pointermove', function (e) {
+      x = e.clientX; y = e.clientY;
+      place(dotEl, x, y);
+      cur.classList.add('is-visible');
+      if (!raf) raf = requestAnimationFrame(trail);
+    }, { passive: true });
+    document.addEventListener('pointerover', function (e) {
+      cur.classList.toggle('is-link', !!e.target.closest(interactive));
+      cur.classList.toggle('is-text', !!e.target.closest(textual));
+    });
+    document.addEventListener('pointerdown', function () { cur.classList.add('is-down'); });
+    document.addEventListener('pointerup', function () { cur.classList.remove('is-down'); });
+    document.documentElement.addEventListener('pointerleave', function () { cur.classList.remove('is-visible'); });
   }
 })();
