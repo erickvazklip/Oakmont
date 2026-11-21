@@ -1,49 +1,116 @@
-# Oakmont Services — Página principal
+# Oakmont Services — Sitio web
 
-Landing page estática (one-pager) de **Oakmont Services**, consultora de TI.
-_Architecting Technology Advantage._
+Sitio corporativo de **Oakmont Services**, consultora de tecnologías de la
+información. _Architecting Technology Advantage._
 
-Sin framework, sin paso de build: HTML, CSS y un único archivo JS.
+- **Páginas:** HTML estático generado por un script de Python (solo librería
+  estándar). El HTML generado se versiona, así que el hosting no necesita build.
+- **Formulario de contacto:** funciones de Vercel que guardan cada lead en un
+  almacén privado (Vercel Blob), con panel de consulta y exportación a CSV.
 
-## Estructura
+## Mapa del sitio
+
+| Ruta | Contenido |
+|---|---|
+| `/` | Inicio |
+| `/servicios/` y `/servicios/<servicio>/` | Índice y 8 páginas de detalle |
+| `/industrias/` y `/industrias/<industria>/` | Índice y 3 industrias |
+| `/casos/` y `/casos/<caso>/` | Índice y 3 casos |
+| `/enfoque/` | Horizontes, capa transversal, engagement, gobierno, contratos, métricas |
+| `/nosotros/` | Quiénes somos, propósito, principios, talento, alianzas |
+| `/diagnostico/` | Diagnóstico estratégico de dos semanas |
+| `/contacto/` | Formulario de contacto |
+| `/aviso-de-privacidad/` | Aviso de privacidad |
+| `/404.html` | Página no encontrada |
+| `/admin/` | Panel de leads (no indexable, protegido con contraseña) |
+
+## Estructura del repositorio
 
 ```
-.
-├── index.html        # Página principal
-├── css/
-│   └── styles.css    # Design system (tokens + componentes) + estilos de página
-├── js/
-│   └── main.js       # Scroll reveals, header sticky, parallax, hover, iconos
-└── images/           # Imágenes del sitio (signage, stairs, reception, meeting, globe, wave)
+build/content.py     Todo el texto del sitio (servicios, industrias, casos, enfoque…)
+build/build.py       Generador de páginas, sitemap.xml y robots.txt
+build/icons.py       Íconos SVG incrustados (Lucide 0.456.0, licencia ISC)
+build/diagrams.py    Diagramas alegóricos de servicios, industrias y enfoque
+css/styles.css       Hoja de estilos única (tokens, componentes, responsive)
+js/main.js           Revelados, menús, formulario de contacto
+js/admin.js          Panel de leads
+api/contacto.js      POST: valida y guarda un lead
+api/leads.js         GET (JSON / CSV) y DELETE de leads, con contraseña
+api/_lib.js          Utilidades compartidas del API
+tests/               Pruebas del API (npm test)
+admin/index.html     Panel de leads
+images/              Fotografías e imagen para redes (og.jpg)
 ```
+
+## Criterios editoriales
+
+- **Idioma:** español, con trato de usted. Se quedan en inglés solo los
+  nombres de marca: el lema, los nombres de servicios y los marcos
+  Define · Evolve · Deliver y Assess · Design · Execute · Sustain.
+- **Veracidad:** sin nombres de clientes, cifras de resultados, año de
+  fundación, oficinas, certificaciones ni tiempos de respuesta que no estén
+  confirmados. Los casos se publican sin nombre de cliente.
+- **Movimiento:** solo lo que refuerza el mensaje. El titular de inicio entra
+  una vez, los bloques aparecen una vez (600 ms) y la línea del modelo recorre
+  sus fases una vez. Cada servicio, cada industria y el enfoque tienen un
+  diagrama alegórico (`build/diagrams.py`) que explica su idea mientras se
+  dibuja, una sola vez y en el orden del mensaje. Con
+  «reducir movimiento» activado todo aparece directamente, y sin JavaScript el
+  contenido es visible.
+- **Accesibilidad:** WCAG 2.1 AA. El dorado de marca `#A8966F` se usa para
+  líneas y acentos; sobre fondos claros, el texto dorado usa `#726445`.
+
+## Editar contenido
+
+```bash
+# 1. Edita build/content.py
+python3 build/build.py                     # 2. Regenera el sitio
+python3 build/build.py --preview /ruta     # (opcional) copia con enlaces a index.html
+                                           #  para visores que no resuelven carpetas
+```
+
+`css/styles.css`, `js/*.js` y `admin/index.html` se editan directamente.
+
+## Formulario de contacto y leads
+
+- `POST /api/contacto` valida los datos, descarta spam (campo trampa y tiempo
+  mínimo de llenado) y guarda cada lead como JSON **privado** en Vercel Blob
+  (`leads/AAAA-MM/…json`). Funciona también sin JavaScript.
+- `/admin/`: buscar, leer el mensaje, **exportar a CSV** (abre directo en
+  Excel) y eliminar un lead (por ejemplo, ante una solicitud de derechos ARCO).
+- `GET /api/leads` y `GET /api/leads?format=csv` requieren
+  `Authorization: Bearer <ADMIN_PASSWORD>`, para conectar un CRM u hoja de cálculo.
+- Pruebas: `npm install && npm test`.
+
+## Despliegue en Vercel
+
+1. **Proyecto:** vercel.com → Add New → Project → importar `erickvazklip/Oakmont`.
+   Framework: *Other*; sin comando de build; directorio de salida: raíz.
+2. **Almacén:** en el proyecto → Storage → Create → **Blob**, acceso **Private** →
+   Connect to project (crea `BLOB_READ_WRITE_TOKEN`).
+3. **Contraseña del panel:** Settings → Environment Variables → `ADMIN_PASSWORD`
+   (tipo *Sensitive*, entorno Production).
+4. **Redeploy** para que las funciones tomen las variables.
+5. **Dominio:** Settings → Domains → `oakmontservices.com`.
+
+## Pendiente antes de producción
+
+1. **Datos legales del aviso de privacidad:** completar `legal_name` y
+   `legal_address` en `SITE` (`build/content.py`) y regenerar. Mientras falten,
+   `build.py` lo advierte en cada ejecución. Conviene una revisión legal del texto.
+2. **Despliegue en Vercel:** pasos en «Despliegue en Vercel». Después, probar
+   un envío real y su aparición en `/admin/`.
 
 ## Desarrollo local
 
-No requiere instalación. Sirve la carpeta con cualquier servidor estático:
-
 ```bash
-python3 -m http.server 8000
-# o
-npx serve .
+python3 -m http.server 8000   # sitio estático en http://localhost:8000
 ```
 
-Luego abre <http://localhost:8000>.
+El formulario y el panel necesitan las funciones de Vercel (`vercel dev` o el
+despliegue).
 
-> Nota: ábrelo a través de un servidor (no con `file://`) para que se carguen
-> correctamente las rutas relativas de CSS, JS e imágenes.
+## Dependencias externas
 
-## Dependencias externas (vía CDN)
-
-- **Tipografías:** [Cinzel](https://fonts.google.com/specimen/Cinzel) y
-  [Montserrat](https://fonts.google.com/specimen/Montserrat) (Google Fonts).
-- **Iconos:** [Lucide](https://lucide.dev) (`unpkg`).
-
-## Despliegue
-
-Compatible con cualquier hosting estático: GitHub Pages, Netlify, Vercel o
-Cloudflare Pages. Basta con publicar la raíz del repositorio.
-
-## Origen
-
-Diseñado en Claude Design y exportado a HTML/CSS/JS estándar, eliminando el
-runtime del editor y las dependencias propietarias.
+- Tipografías Cinzel y Montserrat (Google Fonts).
+- `@vercel/blob` en las funciones del API.

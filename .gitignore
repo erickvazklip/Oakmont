@@ -2,11 +2,8 @@
 .DS_Store
 Thumbs.db
 
-# Editor / tooling
+# Tooling
 .claude/
-
-# Claude Design source artifacts (not part of the published site)
-Oakmont página principal elegante/
-*.dc.html
-*.standalone.html
-support.js
+__pycache__/
+node_modules/
+.vercel/
