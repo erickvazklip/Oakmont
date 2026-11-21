@@ -350,21 +350,20 @@ def build_home():
 
     body = f'''
 <section class="hero" id="top" aria-label="Introducción">
-  <div class="hero__grid container">
-    <div class="hero__content">
-      <p class="kicker rv">Consultoría en tecnologías de la información</p>
-      <h1 class="hero__title lines" aria-label="Architecting Technology Advantage">
-        <span><span>Architecting</span></span>
-        <span><span>Technology</span></span>
-        <span><span class="gold">Advantage</span></span>
-      </h1>
-      <p class="hero__lede rv" style="--d:.5s">Acompañamos a la dirección ejecutiva en la definición, evolución e ingeniería de soluciones tecnológicas — de la estrategia a la producción, bajo un modelo de gobierno único.</p>
-      <div class="hero__actions rv" style="--d:.6s">
-        <a href="diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
-        <a href="servicios/" class="link-arrow">Explorar servicios {icon("arrow-right")}</a>
-      </div>
+  <div class="hero__media" aria-hidden="true"><img src="images/signage.jpg" alt="" width="554" height="474" fetchpriority="high"></div>
+  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="hero__content container">
+    <p class="kicker rv">Consultoría en tecnologías de la información</p>
+    <h1 class="hero__title lines" aria-label="Architecting Technology Advantage">
+      <span><span>Architecting</span></span>
+      <span><span>Technology</span></span>
+      <span><span class="gold">Advantage</span></span>
+    </h1>
+    <p class="hero__lede rv" style="--d:.5s">Acompañamos a la dirección ejecutiva en la definición, evolución e ingeniería de soluciones tecnológicas — de la estrategia a la producción, bajo un modelo de gobierno único.</p>
+    <div class="hero__actions rv" style="--d:.6s">
+      <a href="diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
+      <a href="servicios/" class="link-arrow">Explorar servicios {icon("arrow-right")}</a>
     </div>
-    {allegory("sistema")}
   </div>
 </section>
 

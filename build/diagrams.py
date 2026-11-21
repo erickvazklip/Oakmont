@@ -216,24 +216,7 @@ def _health():
     return ("Información de pólizas, siniestros, clientes y proveedores converge en una fuente única, gobernada y protegida", body)
 
 
-def _system():
-    """Home hero: strategy, architecture and execution orchestrated as one system."""
-    body = guide("M20 208 H380", .1, "w dash") + guide("M200 20 V380", .1, "w dash")
-    body += path("M200 150 L150 237 L250 237 Z", "w", .2, .8)
-    parts = [((200, 150), "g", .4, (200, 72), (200, 40), (200, 28), "ESTRATEGIA"),
-             ((150, 237), "g2", .9, (95, 292), (62, 326), (62, 346), "ARQUITECTURA"),
-             ((250, 237), "g2", 1.4, (305, 292), (338, 326), (338, 346), "EJECUCIÓN")]
-    for (cx, cy), cls, t, (ax, ay), (bx, by), (lx, ly), text in parts:
-        body += circle(cx, cy, 78, cls, t, 1.2)
-        body += path(f"M{ax} {ay} L{bx} {by}", "w-solid", t + .8, .4) + label(lx, ly, text, t + .9)
-    body += circle(200, 208, 160, "g3", 2.0, 1.4)
-    body += dot(200, 208, 7, 2.9) + circle(200, 208, 16, "g", 3.0, .6)
-    body += label(200, 392, "UN SISTEMA ÚNICO", 3.1, "gold")
-    return ("Estrategia, arquitectura y ejecución se superponen y quedan orquestadas en un sistema único; en su centro, la ventaja", body)
-
-
 DIAGRAMS = {
-    "sistema": _system,
     "horizontes": _horizons,
     "fabrica-de-software": _fabrica,
     "strategy-advisory": _strategy,
