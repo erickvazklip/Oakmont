@@ -254,8 +254,11 @@ a { color: inherit; }
 .hero__media {
   position: absolute; right: -4%; top: 50%; transform: translateY(-50%);
   width: min(50vw, 760px); aspect-ratio: 554 / 474;
-  -webkit-mask-image: radial-gradient(closest-side, #000 52%, transparent 100%);
-  mask-image: radial-gradient(closest-side, #000 52%, transparent 100%);
+  /* soft rectangular feather on all four edges, so the wall melts into the page */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%, #000 82%, transparent), linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 30%, #000 82%, transparent), linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent);
+  mask-composite: intersect;
 }
 .hero__media img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.45) contrast(1.1) brightness(.85); }
 .hero__veil { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, var(--ink) 0%, rgba(20, 20, 20, .9) 42%, rgba(20, 20, 20, .15) 68%, transparent 100%); }
