@@ -5,9 +5,10 @@
    2. Base              9. Page hero & breadcrumbs
    3. Type              10. Cards & grids
    4. Buttons & links   11. Detail blocks
-   5. Reveal motion     12. Contact
+   5. Reveal motion     12. Forms
    6. Navigation        13. Footer
-   7. Layout            14. Responsive & reduced motion
+   7. Layout            14. Admin panel
+                        15. Responsive & reduced motion
 
    Palette: sober neutrals with a champagne accent; never blue
    or red. Display: Cinzel (substitute for Trajan Pro).
@@ -34,6 +35,7 @@
   --gold:       #C4B596;
   --gold-deep:  #A8966F;   /* lines and accents */
   --gold-text:  #726445;   /* gold text and icons on light backgrounds (WCAG AA) */
+  --error:      #8A5A44;
 
   --line-dark:  rgba(247, 247, 247, .12);
   --line-light: rgba(26, 26, 26, .12);
@@ -117,6 +119,8 @@ a { color: inherit; }
 .btn--gold:hover { background: var(--ivory); }
 .btn--dark { background: var(--ink); color: var(--ivory); }
 .btn--dark:hover { background: var(--gold); color: var(--ink); }
+.btn--line-dark { background: transparent; color: var(--ink); border-color: rgba(26, 26, 26, .25); }
+.btn--line-dark:hover { border-color: var(--ink); }
 .btn:disabled { opacity: .6; cursor: progress; }
 
 .link-arrow {
@@ -174,6 +178,7 @@ a { color: inherit; }
 .nav__caret { display: grid; place-items: center; width: 22px; height: 28px; padding: 0; border: 0; background: none; color: rgba(247, 247, 247, .6); cursor: pointer; }
 .nav__caret svg { width: 12px; height: 12px; transition: transform var(--dur-base) var(--ease-out); }
 .nav__item.is-open .nav__caret svg { transform: rotate(180deg); }
+.nav__cta { margin-left: 8px; }
 .nav__toggle { display: none; position: relative; width: 44px; height: 44px; border: 0; background: none; color: var(--ivory); cursor: pointer; }
 .nav__toggle span { position: absolute; left: 11px; right: 11px; height: 1.5px; background: currentColor; transition: transform var(--dur-base) var(--ease-out); }
 .nav__toggle span:first-child { top: 18px; }
@@ -518,6 +523,11 @@ a { color: inherit; }
 .faq__item[open] summary::after { transform: rotate(45deg); }
 .faq__item p { padding: 0 40px 24px 0; font-size: 15.5px; line-height: 1.75; color: var(--graphite); }
 
+.ctaband { padding: clamp(72px, 11vh, 120px) 0; background: var(--ink); border-top: 1px solid var(--line-dark); }
+.ctaband__inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; flex-wrap: wrap; }
+.ctaband__title { max-width: 18em; font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: .02em; font-size: clamp(26px, 3.2vw, 44px); line-height: 1.12; }
+.ctaband p { max-width: 36em; margin-top: 18px; font-size: 16px; font-weight: 300; color: var(--on-dark-2); }
+.ctaband__actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
 
 .helprows { border-top: 1px solid var(--line-dark); }
 .helprow { display: grid; grid-template-columns: 300px 1fr 40px; gap: 24px; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line-dark); color: var(--ivory); text-decoration: none; }
@@ -558,15 +568,33 @@ a { color: inherit; }
 .week li { position: relative; padding: 12px 0 12px 22px; border-top: 1px solid var(--line-light); font-size: 15.5px; color: var(--graphite); }
 .week li::before { content: ""; position: absolute; left: 0; top: 1.4em; width: 8px; height: 1px; background: var(--gold-deep); }
 
-/* ---------- 12. Contact ---------- */
+/* ---------- 12. Forms ---------- */
+.form { position: relative; display: flex; flex-direction: column; gap: 20px; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field > span { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--graphite); }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 13px 14px;
+  font: inherit; font-size: 16px; color: var(--ink);
+  background: var(--white); border: 1px solid rgba(26, 26, 26, .18); border-radius: 6px;
+  transition: border-color var(--dur-micro), box-shadow var(--dur-micro);
+}
+.field textarea { min-height: 140px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--gold-deep); box-shadow: 0 0 0 3px rgba(168, 150, 111, .2); }
+.field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea { border-color: var(--error); }
+.check { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--graphite); }
+.check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--ink); }
+.check.is-invalid span { color: var(--error); }
+.check a { color: var(--ink); }
+.form__actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.form__note { font-size: 13px; color: var(--muted); }
+.form__error { font-size: 14px; color: var(--error); }
+.form__ok { display: none; padding: 20px 22px; background: var(--white); border: 1px solid var(--line-card); border-left: 3px solid var(--gold-deep); border-radius: 6px; font-size: 16px; }
+.form.is-sent > * { display: none; }
+.form.is-sent > .form__ok { display: block; }
 .steps-mini { display: flex; flex-direction: column; gap: 10px; counter-reset: s; }
 .steps-mini li { position: relative; padding-left: 30px; counter-increment: s; }
 .steps-mini li::before { content: counter(s); position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 20px; height: 20px; border: 1px solid var(--gold-deep); border-radius: 50%; font-size: 11px; color: var(--gold-text); }
-
-.contact-mail { margin: 4px 0 28px; font-weight: 300; font-size: clamp(24px, 3vw, 40px); letter-spacing: -.01em; }
-.contact-mail a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--gold-deep); text-decoration-thickness: 1px; text-underline-offset: 8px; transition: color var(--dur-micro); }
-.contact-mail a:hover { color: var(--gold-text); }
-.contact-mail + .lede { margin-bottom: 8px; }
 
 /* ---------- 13. Footer ---------- */
 .footer { padding: 72px 0 32px; background: var(--ink); border-top: 1px solid var(--line-dark); color: rgba(247, 247, 247, .62); }
@@ -585,9 +613,32 @@ a { color: inherit; }
   background: linear-gradient(var(--line-dark), var(--line-dark)) var(--gutter) 0 / calc(100% - 2 * var(--gutter)) 1px no-repeat;
 }
 
-/* ---------- 14. Responsive ---------- */
+/* ---------- 14. Admin panel ---------- */
+.adm-body { background: var(--paper); color: var(--ink); }
+.adm-top { background: var(--ink); color: var(--ivory); }
+.adm-top .container { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; }
+.adm-top__title { font-size: 11px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+.adm { padding: 48px var(--gutter) 96px; }
+.adm h1 { font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: .02em; font-size: clamp(28px, 3vw, 40px); }
+.adm-login { display: flex; flex-direction: column; gap: 18px; max-width: 420px; margin: 40px 0; }
+.adm-bar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 28px 0 20px; }
+.adm-bar input { flex: 1 1 260px; padding: 11px 14px; font: inherit; font-size: 15px; background: var(--white); border: 1px solid rgba(26, 26, 26, .18); border-radius: 6px; }
+.adm-count { font-size: 13px; color: var(--muted); }
+.adm-wrap { overflow-x: auto; }
+.adm-table { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid var(--line-card); }
+.adm-table th, .adm-table td { padding: 12px 14px; border-bottom: 1px solid var(--line-light); text-align: left; vertical-align: top; font-size: 14px; }
+.adm-table th { background: var(--mist); font-size: 10.5px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--graphite); }
+.adm-table tr.lead { cursor: pointer; }
+.adm-table tr.lead:hover td, .adm-table .msg td { background: #FBFAF7; }
+.adm-table .msg td { white-space: pre-wrap; line-height: 1.65; color: var(--graphite); }
+.adm-del { padding: 6px 12px; font: inherit; font-size: 12px; color: var(--error); background: none; border: 1px solid rgba(138, 90, 68, .4); border-radius: 999px; cursor: pointer; }
+.adm-empty { padding: 40px; text-align: center; color: var(--muted); background: var(--white); border-radius: 8px; }
+.adm-err { font-size: 14px; color: var(--error); }
+
+/* ---------- 15. Responsive ---------- */
 @media (max-width: 1180px) {
   .nav__links { gap: 18px; }
+  .nav__cta { display: none; }
 }
 @media (max-width: 1100px) {
   .bento, .enablers, .scards, .outcomes--4, .results, .problems--4 { grid-template-columns: repeat(2, 1fr); }
@@ -601,7 +652,7 @@ a { color: inherit; }
 }
 @media (max-width: 900px) {
   :root { --nav-h: 64px; }
-  .nav__links { display: none; }
+  .nav__links, .nav__cta { display: none; }
   .nav__toggle { display: block; }
   .hero__media { right: -30%; width: 115vw; opacity: .5; }
   .hero__veil { background: linear-gradient(180deg, rgba(20, 20, 20, .7), rgba(20, 20, 20, .5) 40%, var(--ink)); }
@@ -624,6 +675,7 @@ a { color: inherit; }
   .reasons p { grid-column: 2; }
   .helprow { grid-template-columns: 1fr 24px; gap: 8px 16px; }
   .helprow__go { grid-row: 1 / span 2; grid-column: 2; }
+  .form__row { grid-template-columns: 1fr; }
   .figures__grid--3 { grid-template-columns: 1fr; row-gap: 32px; }
   .figures__grid--3 .figure { padding-left: 0; border-left: 0; }
   .footer__top { grid-template-columns: 1fr; }

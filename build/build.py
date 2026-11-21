@@ -110,8 +110,8 @@ def header(r, active, home):
       <div class="nav__item"><a href="{r}enfoque/"{cls("enfoque")}>Enfoque</a></div>
       <div class="nav__item"><a href="{r}casos/"{cls("casos")}>Casos</a></div>
       <div class="nav__item"><a href="{r}nosotros/"{cls("nosotros")}>Nosotros</a></div>
-      <div class="nav__item"><a href="{r}contacto/"{cls("contacto")}>Contacto</a></div>
     </nav>
+    <a href="{r}diagnostico/" class="btn btn--gold btn--sm nav__cta">Agendar diagnóstico</a>
     <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
 </header>
@@ -130,6 +130,7 @@ def header(r, active, home):
     <a href="{r}casos/">Casos</a>
     <a href="{r}nosotros/">Nosotros</a>
     <a href="{r}contacto/">Contacto</a>
+    <a class="btn btn--gold btn--lg" href="{r}diagnostico/">Agendar diagnóstico</a>
   </nav>
 </div>
 '''
@@ -275,6 +276,23 @@ def head(label, title, dark=False, aside=""):
     return f'''<header class="head{' head--row' if aside else ''} rv"><div><p class="{lab}">{e(label)}</p><h2 class="{disp}">{e(title)}</h2></div>{a}</header>'''
 
 
+def cta_band(r, title="Empecemos por entender dónde está hoy su tecnología.",
+             text="Un diagnóstico estratégico de dos semanas, sin compromiso, con hallazgos accionables."):
+    return f'''
+<section class="ctaband">
+  <div class="container ctaband__inner rv">
+    <div>
+      <h2 class="ctaband__title">{e(title)}</h2>
+      <p>{e(text)}</p>
+    </div>
+    <div class="ctaband__actions">
+      <a href="{r}diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
+      <a href="{r}contacto/" class="link-arrow">Contactar a Oakmont</a>
+    </div>
+  </div>
+</section>'''
+
+
 def svc_card(r, s):
     return f'''<a class="scard rv" href="{r}servicios/{s["slug"]}/">
   {icon(s["icon"])}
@@ -343,6 +361,7 @@ def build_home():
     </h1>
     <p class="hero__lede rv" style="--d:.5s">Acompañamos a la dirección ejecutiva en la definición, evolución e ingeniería de soluciones tecnológicas — de la estrategia a la producción, bajo un modelo de gobierno único.</p>
     <div class="hero__actions rv" style="--d:.6s">
+      <a href="diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
       <a href="servicios/" class="link-arrow">Explorar servicios {icon("arrow-right")}</a>
     </div>
   </div>
@@ -445,7 +464,8 @@ def build_home():
     <h2 class="cta__title" id="cta-title">La distancia entre la ambición tecnológica y su ejecución es donde se gana la ventaja.</h2>
     <p class="cta__sub">Oakmont existe para cerrarla. Propongamos un diagnóstico estratégico de dos semanas — sin compromiso, con hallazgos accionables.</p>
     <div class="cta__actions">
-      <a href="contacto/" class="link-arrow">Contactar a Oakmont {icon("arrow-right")}</a>
+      <a href="diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
+      <a href="contacto/" class="link-arrow">Contactar a Oakmont</a>
     </div>
   </div>
 </section>'''
@@ -494,7 +514,7 @@ def build_services_index():
       <p class="more"><a class="link-arrow link-arrow--dark" href="{r}enfoque/">Ver cómo trabajamos {icon("arrow-right")}</a></p>
     </div>
   </div>
-</section>'''
+</section>''' + cta_band(r)
     write("servicios/index.html", "Servicios", "Ocho capacidades de consultoría en TI: fábrica de software, estrategia, talento, nube, datos e IA, ciberseguridad, operación cloud y calidad.",
           body, active="servicios", crumbs=crumbs)
 
@@ -503,7 +523,7 @@ def build_service(s):
     r = "../../"
     crumbs = [("Servicios", "servicios/"), (s["name"], f'servicios/{s["slug"]}/')]
     plane = "Capacidad núcleo" if s["plane"] == "nucleo" else "Capacidad habilitadora"
-    actions = f'''<div class="phero__actions rv"><a href="{r}contacto/" class="btn btn--gold btn--lg">Hablar con un especialista</a><a href="#que-hacemos" class="link-arrow">Qué hacemos</a></div>'''
+    actions = f'''<div class="phero__actions rv"><a href="{r}contacto/?interes={s["slug"]}" class="btn btn--gold btn--lg">Hablar con un especialista</a><a href="#que-hacemos" class="link-arrow">Qué hacemos</a></div>'''
     problems = "".join(f'<li class="rv"><h3>{e(t)}</h3><p>{e(d)}</p></li>' for t, d in s["problems"])
     offerings = "".join(f'<li class="rv"><span class="offer__n">{i+1:02d}</span><div><h3>{e(t)}</h3><p>{e(d)}</p></div></li>' for i, (t, d) in enumerate(s["offerings"]))
     seven = ""
@@ -551,7 +571,7 @@ def build_service(s):
       <ul class="aside__models">{models}</ul>
       {ind_links}
       {case_links}
-      <a class="btn btn--dark btn--sm" href="{r}contacto/">Solicitar propuesta</a>
+      <a class="btn btn--dark btn--sm" href="{r}contacto/?interes={s["slug"]}">Solicitar propuesta</a>
     </aside>
   </div>
 </section>
@@ -592,7 +612,8 @@ def build_service(s):
     {head("Servicios relacionados", "Se combinan bien con este servicio.")}
     <div class="scards scards--3" data-stagger>{related}</div>
   </div>
-</section>'''
+</section>''' + cta_band(r, title=f'¿Conversamos sobre {s["name"]}?',
+                          text="Cuéntenos su contexto y le proponemos el alcance y el modelo de contratación adecuados.")
     ld = [
         {"@context": "https://schema.org", "@type": "Service", "name": s["name"], "description": s["lede"],
          "provider": {"@type": "Organization", "name": C.SITE["name"], "url": C.SITE["domain"] + "/"},
@@ -611,7 +632,7 @@ def build_industries_index():
                  "Llevamos las mismas capacidades a contextos con exigencias distintas: regulación, picos de demanda, información sensible. Conocer el sector cambia qué se prioriza y cómo se ejecuta.") + f'''
 <section class="section section--paper">
   <div class="container"><h2 class="visually-hidden">Industrias</h2><div class="icards" data-stagger>{cards}</div></div>
-</section>'''
+</section>''' + cta_band(r)
     write("industrias/index.html", "Industrias", "Consultoría en TI para servicios financieros, retail y consumo, y salud y seguros.",
           body, active="industrias", crumbs=crumbs)
 
@@ -624,7 +645,7 @@ def build_industry(i):
     hp = "".join(f'''<a class="helprow rv" href="{r}servicios/{sl}/"><span class="helprow__svc">{icon(SVC[sl]["icon"])}{e(SVC[sl]["name"])}</span><span class="helprow__txt">{e(t)}</span><span class="helprow__go" aria-hidden="true">{icon("arrow-right")}</span></a>''' for sl, t in i["help"])
     c = CASE[i["case"]]
     body = phero(r, crumbs, "Industrias", i["name"], i["lede"],
-                 f'<div class="phero__actions rv"><a href="{r}contacto/" class="btn btn--gold btn--lg">Conversar sobre su sector</a></div>',
+                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes={i["slug"]}" class="btn btn--gold btn--lg">Conversar sobre su sector</a></div>',
                  allegory(i["slug"])) + f'''
 <section class="section section--paper">
   <div class="container split split--even">
@@ -654,7 +675,7 @@ def build_industry(i):
       <span class="scard__more">Leer el caso completo</span>
     </a>
   </div>
-</section>'''
+</section>''' + cta_band(r)
     write(f'industrias/{i["slug"]}/index.html', i["name"], i["lede"], body, active="industrias", crumbs=crumbs)
 
 
@@ -676,7 +697,7 @@ def build_cases_index():
     <div class="cases" data-stagger>{cards}</div>
     <div class="partners-row rv"><span>Alianzas</span><ul class="partners"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li></ul></div>
   </div>
-</section>'''
+</section>''' + cta_band(r)
     write("casos/index.html", "Casos", "Casos representativos de modernización, operación cloud-native y plataformas de datos con IA aplicada.",
           body, active="casos", crumbs=crumbs)
 
@@ -739,7 +760,7 @@ def build_case(c):
     {head("Más casos", "Otros resultados.")}
     <div class="cases cases--2" data-stagger>{oth}</div>
   </div>
-</section>'''
+</section>''' + cta_band(r, title="¿Un reto parecido en su organización?")
     write(f'casos/{c["slug"]}/index.html', f'Caso {c["n"]}: {ind["name"]}', c["summary"], body, active="casos", crumbs=crumbs)
 
 
@@ -797,7 +818,7 @@ def build_approach():
     {head("Cómo medimos el éxito", "Tres métricas acordadas antes de empezar.")}
     <div class="figures__grid figures__grid--3 rv">{ms}</div>
   </div>
-</section>'''
+</section>''' + cta_band(r)
     write("enfoque/index.html", "Enfoque", "Framework Define, Evolve, Deliver; modelo de engagement; gobierno de entrega y modelos contractuales de Oakmont Services.",
           body, active="enfoque", crumbs=crumbs)
 
@@ -853,7 +874,7 @@ def build_about():
       <ul class="partners partners--lg"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li></ul>
     </div>
   </div>
-</section>'''
+</section>''' + cta_band(r)
     write("nosotros/index.html", "Nosotros", "Quiénes somos, propósito, principios y modelo de talento de Oakmont Services.",
           body, active="nosotros", crumbs=crumbs)
 
@@ -866,7 +887,8 @@ def build_diagnostic():
     dl = "".join(f'<li class="rv"><h3>{e(t)}</h3><p>{e(d)}</p></li>' for t, d in D["deliverables"])
     needs = "".join(f'<li>{icon("check")}<span>{e(x)}</span></li>' for x in D["needs"])
     body = phero(r, crumbs, "Diagnóstico estratégico", "Dos semanas para saber dónde está y qué hacer primero.",
-                 "Un diagnóstico acotado de su tecnología con hallazgos accionables y prioridades claras. Sin compromiso de contratación posterior.") + f'''
+                 "Un diagnóstico acotado de su tecnología con hallazgos accionables y prioridades claras. Sin compromiso de contratación posterior.",
+                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes=diagnostico" class="btn btn--gold btn--lg">Agendar diagnóstico</a></div>') + f'''
 <section class="section section--paper">
   <div class="container">
     {head("Agenda", "Cómo se usan las dos semanas.")}
@@ -893,7 +915,7 @@ def build_diagnostic():
       <p class="lede">Al terminar, usted decide si continúa con Oakmont, con otro proveedor o con su propio equipo. Los entregables son suyos.</p>
     </div>
   </div>
-</section>'''
+</section>''' + cta_band(r, title="Agende la sesión de arranque.", text="Cuéntenos su contexto y acordamos con usted fechas y participantes.")
     write("diagnostico/index.html", "Diagnóstico estratégico de dos semanas", "Diagnóstico tecnológico de dos semanas con hallazgos accionables, riesgos priorizados e iniciativas por horizonte.",
           body, crumbs=crumbs)
 
@@ -901,23 +923,43 @@ def build_diagnostic():
 def build_contact():
     r = "../"
     crumbs = [("Contacto", "contacto/")]
-    mail = C.SITE["email"]
+    opts = '<option value="">Seleccione una opción</option><option value="diagnostico">Diagnóstico estratégico de dos semanas</option>'
+    opts += "".join(f'<option value="{s["slug"]}">{e(s["name"])}</option>' for s in C.SERVICES)
+    opts += "".join(f'<option value="{i["slug"]}">Industria: {e(i["name"])}</option>' for i in C.INDUSTRIES)
+    opts += '<option value="otro">Otro tema</option>'
     body = phero(r, crumbs, "Contacto", "Conversemos.",
                  "Cuéntenos su contexto y el reto que enfrenta. Un especialista de Oakmont se pondrá en contacto con usted.") + f'''
 <section class="section section--paper">
   <div class="container with-aside">
-    <div class="rv">
-      <p class="label label--dark">Escríbanos</p>
-      <p class="contact-mail"><a href="mailto:{mail}">{mail}</a></p>
-      <p class="lede">Para orientar mejor la primera conversación, le sugerimos incluir:</p>
-      <ul class="checklist">
-        <li>{icon("check")}<span>Su nombre, cargo y empresa.</span></li>
-        <li>{icon("check")}<span>El reto que quiere resolver y por qué es prioritario ahora.</span></li>
-        <li>{icon("check")}<span>El servicio o la industria que le interesa, si ya lo tiene identificado.</span></li>
-        <li>{icon("check")}<span>Plazos o hitos relevantes para su organización.</span></li>
-      </ul>
-    </div>
-    <aside class="aside rv" aria-label="Qué pasa después">
+    <form class="form rv" id="contact-form" action="/api/contacto" method="post" data-email="{C.SITE["email"]}" novalidate>
+      <p class="form__ok" role="status" tabindex="-1">Gracias. Recibimos su mensaje; un especialista de Oakmont se pondrá en contacto con usted.</p>
+      <div class="form__row">
+        <label class="field"><span>Nombre completo *</span><input name="nombre" autocomplete="name" maxlength="120" required></label>
+        <label class="field"><span>Correo corporativo *</span><input name="correo" type="email" autocomplete="email" maxlength="160" required></label>
+      </div>
+      <div class="form__row">
+        <label class="field"><span>Empresa *</span><input name="empresa" autocomplete="organization" maxlength="160" required></label>
+        <label class="field"><span>Cargo</span><input name="cargo" autocomplete="organization-title" maxlength="120"></label>
+      </div>
+      <div class="form__row">
+        <label class="field"><span>Teléfono</span><input name="telefono" type="tel" autocomplete="tel" maxlength="40"></label>
+        <label class="field"><span>Tema de interés *</span><select name="interes" required>{opts}</select></label>
+      </div>
+      <label class="field"><span>¿Qué reto quiere resolver? *</span><textarea name="mensaje" rows="6" maxlength="5000" required></textarea></label>
+      <div class="visually-hidden" aria-hidden="true"><label>No llene este campo <input name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="ts" value="">
+      <input type="hidden" name="interes_label" value="">
+      <input type="hidden" name="pagina_origen" value="">
+      <label class="check"><input type="checkbox" name="privacidad" required><span>He leído y acepto el <a href="{r}aviso-de-privacidad/">aviso de privacidad</a>. *</span></label>
+      <p class="form__error" role="alert" hidden>Revise los campos marcados con *.</p>
+      <div class="form__actions">
+        <button class="btn btn--dark btn--lg" type="submit">Enviar mensaje</button>
+        <p class="form__note">Sus datos se usan solo para responder a su solicitud.</p>
+      </div>
+    </form>
+    <aside class="aside rv" aria-label="Otras formas de contacto">
+      <p class="aside__h">Correo</p>
+      <p><a href="mailto:{C.SITE["email"]}">{C.SITE["email"]}</a></p>
       <p class="aside__h">Qué pasa después</p>
       <ol class="steps-mini">
         <li>Revisamos su mensaje y lo asignamos a un especialista en su tema.</li>
@@ -928,7 +970,7 @@ def build_contact():
   </div>
 </section>'''
     write("contacto/index.html", "Contacto", "Contacte a Oakmont Services para conversar sobre estrategia, arquitectura, ingeniería, nube, datos e IA.",
-          body, active="contacto", crumbs=crumbs)
+          body, crumbs=crumbs)
 
 
 def build_privacy():
@@ -943,12 +985,12 @@ def build_privacy():
       <h2>Responsable del tratamiento</h2>
       <p>{e(S["legal_name"])} (en adelante, «Oakmont Services»), con domicilio en {e(S["legal_address"])}, es responsable del tratamiento de sus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares y su normativa aplicable.</p>
       <h2>Datos que recabamos</h2>
-      <p>Cuando usted nos escribe por correo electrónico, recibimos los datos que decida incluir en su mensaje, como su nombre, correo electrónico, empresa, cargo y teléfono. No solicitamos datos personales sensibles.</p>
+      <p>A través del formulario de contacto y del correo electrónico recabamos: nombre, correo electrónico corporativo, empresa, cargo, teléfono y la información que usted decida incluir en su mensaje. No solicitamos datos personales sensibles.</p>
       <h2>Finalidades</h2>
       <p>Finalidades primarias: atender su solicitud de contacto, agendar reuniones, elaborar propuestas de servicios y dar seguimiento a la relación comercial.</p>
       <p>Finalidades secundarias: enviarle información sobre servicios, publicaciones o eventos de Oakmont Services. Si no desea que sus datos se usen para estas finalidades, puede indicarlo en cualquier momento escribiendo a <a href="mailto:{S["email"]}">{S["email"]}</a>.</p>
       <h2>Transferencias</h2>
-      <p>No transferimos sus datos personales a terceros sin su consentimiento, salvo en los casos previstos por la ley. Podemos apoyarnos en proveedores de servicios tecnológicos, como correo electrónico y alojamiento del sitio, que tratan los datos por cuenta de Oakmont Services y bajo obligaciones de confidencialidad.</p>
+      <p>No transferimos sus datos personales a terceros sin su consentimiento, salvo en los casos previstos por la ley. Los datos enviados mediante el formulario se almacenan en la infraestructura de Vercel Inc., proveedor de alojamiento del sitio, que los trata por cuenta de Oakmont Services. También podemos apoyarnos en otros proveedores de servicios tecnológicos, como correo electrónico, bajo obligaciones de confidencialidad.</p>
       <h2>Derechos ARCO</h2>
       <p>Usted puede acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales, así como revocar su consentimiento, enviando una solicitud a <a href="mailto:{S["email"]}">{S["email"]}</a> con su nombre, un medio para comunicarle la respuesta, la descripción clara de los datos y el derecho que desea ejercer, y una copia de su identificación. Responderemos en los plazos que establece la ley.</p>
       <h2>Cookies y tecnologías similares</h2>
@@ -984,7 +1026,7 @@ def build_meta():
     with open(os.path.join(OUT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
     with open(os.path.join(OUT, "robots.txt"), "w", encoding="utf-8") as f:
-        f.write(f"User-agent: *\nAllow: /\n\nSitemap: {C.SITE['domain']}/sitemap.xml\n")
+        f.write(f"User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: {C.SITE['domain']}/sitemap.xml\n")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 /* ============================================================
    Oakmont Services — interactions
    ------------------------------------------------------------
-   Small on purpose: one-time reveals, header state, dropdowns
-   and the mobile menu. No scroll-linked animation.
+   Small on purpose: one-time reveals, header state, dropdowns,
+   mobile menu and the contact form. No scroll-linked animation.
    Every page is fully readable if this file never runs.
    ============================================================ */
 (function () {
@@ -82,4 +82,61 @@
     var open = document.querySelector('.nav__item.is-open');
     if (open) { setOpen(open, false); open.querySelector('.nav__caret').focus(); }
   });
+
+  /* ---------- Contact form: validate, then POST to /api/contacto ---------- */
+  var form = document.getElementById('contact-form');
+  if (form) {
+    var params = new URLSearchParams(window.location.search);
+    var okBox = form.querySelector('.form__ok');
+    var errBox = form.querySelector('.form__error');
+    var fallback = ' Si el problema continúa, escríbanos a ' + form.getAttribute('data-email') + '.';
+
+    var pre = (params.get('interes') || '').replace(/[^a-z0-9-]/g, '');
+    if (pre && form.interes.querySelector('option[value="' + pre + '"]')) form.interes.value = pre;
+    if (params.get('enviado')) form.classList.add('is-sent');
+    if (params.get('error')) { errBox.textContent = 'No pudimos registrar su mensaje.' + fallback; errBox.hidden = false; }
+    form.ts.value = String(Date.now());
+    form.pagina_origen.value = document.referrer || window.location.href;
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var ok = true;
+      form.querySelectorAll('[required]').forEach(function (el) {
+        var v = el.value.trim();
+        var valid = el.type === 'checkbox' ? el.checked : v !== '' && (el.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v));
+        el.closest('.field, .check').classList.toggle('is-invalid', !valid);
+        if (!valid && ok) { el.focus(); ok = false; }
+      });
+      errBox.textContent = 'Revise los campos marcados con *.';
+      errBox.hidden = ok;
+      if (!ok) return;
+
+      form.interes_label.value = form.interes.options[form.interes.selectedIndex].text;
+      var data = {};
+      new FormData(form).forEach(function (v, k) { data[k] = v; });
+      data.privacidad = form.privacidad.checked;
+
+      var btn = form.querySelector('button[type=submit]');
+      var label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Enviando…';
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (!r.ok || !j.ok) throw new Error(j.error || '');
+        });
+      }).then(function () {
+        form.reset();
+        form.classList.add('is-sent');
+        okBox.focus();
+      }).catch(function (err) {
+        errBox.textContent = (err.message || 'No pudimos enviar su mensaje.') + fallback;
+        errBox.hidden = false;
+      }).then(function () {
+        btn.disabled = false; btn.textContent = label;
+      });
+    });
+  }
 })();

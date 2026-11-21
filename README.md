@@ -3,8 +3,10 @@
 Sitio corporativo de **Oakmont Services**, consultora de tecnologías de la
 información. _Architecting Technology Advantage._
 
-HTML estático generado por un script de Python (solo librería estándar). El
-HTML generado se versiona, así que el hosting no necesita build ni servidor.
+- **Páginas:** HTML estático generado por un script de Python (solo librería
+  estándar). El HTML generado se versiona, así que el hosting no necesita build.
+- **Formulario de contacto:** funciones de Vercel que guardan cada lead en un
+  almacén privado (Vercel Blob), con panel de consulta y exportación a CSV.
 
 ## Mapa del sitio
 
@@ -17,9 +19,10 @@ HTML generado se versiona, así que el hosting no necesita build ni servidor.
 | `/enfoque/` | Horizontes, capa transversal, engagement, gobierno, contratos, métricas |
 | `/nosotros/` | Quiénes somos, propósito, principios, talento, alianzas |
 | `/diagnostico/` | Diagnóstico estratégico de dos semanas |
-| `/contacto/` | Contacto por correo electrónico |
+| `/contacto/` | Formulario de contacto |
 | `/aviso-de-privacidad/` | Aviso de privacidad |
 | `/404.html` | Página no encontrada |
+| `/admin/` | Panel de leads (no indexable, protegido con contraseña) |
 
 ## Estructura del repositorio
 
@@ -29,7 +32,13 @@ build/build.py       Generador de páginas, sitemap.xml y robots.txt
 build/icons.py       Íconos SVG incrustados (Lucide 0.456.0, licencia ISC)
 build/diagrams.py    Diagramas alegóricos de servicios, industrias y enfoque
 css/styles.css       Hoja de estilos única (tokens, componentes, responsive)
-js/main.js           Revelados, menús desplegables y menú móvil
+js/main.js           Revelados, menús, formulario de contacto
+js/admin.js          Panel de leads
+api/contacto.js      POST: valida y guarda un lead
+api/leads.js         GET (JSON / CSV) y DELETE de leads, con contraseña
+api/_lib.js          Utilidades compartidas del API
+tests/               Pruebas del API (npm test)
+admin/index.html     Panel de leads
 images/              Fotografías e imagen para redes (og.jpg)
 ```
 
@@ -60,29 +69,48 @@ python3 build/build.py --preview /ruta     # (opcional) copia con enlaces a inde
                                            #  para visores que no resuelven carpetas
 ```
 
-`css/styles.css` y `js/main.js` se editan directamente.
+`css/styles.css`, `js/*.js` y `admin/index.html` se editan directamente.
 
-## Publicación
+## Formulario de contacto y leads
 
-Es un sitio estático: sirve en cualquier hosting (Vercel, Netlify, Cloudflare
-Pages, GitHub Pages con dominio propio). En Vercel: Add New → Project →
-importar `erickvazklip/Oakmont`, framework *Other*, sin comando de build,
-directorio de salida la raíz; después, Settings → Domains → `oakmontservices.com`.
-Publicar en la raíz del dominio (la página 404 usa rutas absolutas).
+- `POST /api/contacto` valida los datos, descarta spam (campo trampa y tiempo
+  mínimo de llenado) y guarda cada lead como JSON **privado** en Vercel Blob
+  (`leads/AAAA-MM/…json`). Funciona también sin JavaScript.
+- `/admin/`: buscar, leer el mensaje, **exportar a CSV** (abre directo en
+  Excel) y eliminar un lead (por ejemplo, ante una solicitud de derechos ARCO).
+- `GET /api/leads` y `GET /api/leads?format=csv` requieren
+  `Authorization: Bearer <ADMIN_PASSWORD>`, para conectar un CRM u hoja de cálculo.
+- Pruebas: `npm install && npm test`.
+
+## Despliegue en Vercel
+
+1. **Proyecto:** vercel.com → Add New → Project → importar `erickvazklip/Oakmont`.
+   Framework: *Other*; sin comando de build; directorio de salida: raíz.
+2. **Almacén:** en el proyecto → Storage → Create → **Blob**, acceso **Private** →
+   Connect to project (crea `BLOB_READ_WRITE_TOKEN`).
+3. **Contraseña del panel:** Settings → Environment Variables → `ADMIN_PASSWORD`
+   (tipo *Sensitive*, entorno Production).
+4. **Redeploy** para que las funciones tomen las variables.
+5. **Dominio:** Settings → Domains → `oakmontservices.com`.
 
 ## Pendiente antes de producción
 
 1. **Datos legales del aviso de privacidad:** completar `legal_name` y
    `legal_address` en `SITE` (`build/content.py`) y regenerar. Mientras falten,
    `build.py` lo advierte en cada ejecución. Conviene una revisión legal del texto.
-2. **Publicación:** pasos en «Publicación».
+2. **Despliegue en Vercel:** pasos en «Despliegue en Vercel». Después, probar
+   un envío real y su aparición en `/admin/`.
 
 ## Desarrollo local
 
 ```bash
-python3 -m http.server 8000   # http://localhost:8000
+python3 -m http.server 8000   # sitio estático en http://localhost:8000
 ```
+
+El formulario y el panel necesitan las funciones de Vercel (`vercel dev` o el
+despliegue).
 
 ## Dependencias externas
 
 - Tipografías Cinzel y Montserrat (Google Fonts).
+- `@vercel/blob` en las funciones del API.

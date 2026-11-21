@@ -57,8 +57,8 @@
       <div class="nav__item"><a href="../enfoque/">Enfoque</a></div>
       <div class="nav__item"><a href="../casos/">Casos</a></div>
       <div class="nav__item"><a href="../nosotros/">Nosotros</a></div>
-      <div class="nav__item"><a href="../contacto/" class="is-current" aria-current="page">Contacto</a></div>
     </nav>
+    <a href="../diagnostico/" class="btn btn--gold btn--sm nav__cta">Agendar diagnóstico</a>
     <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
 </header>
@@ -77,6 +77,7 @@
     <a href="../casos/">Casos</a>
     <a href="../nosotros/">Nosotros</a>
     <a href="../contacto/">Contacto</a>
+    <a class="btn btn--gold btn--lg" href="../diagnostico/">Agendar diagnóstico</a>
   </nav>
 </div>
 
@@ -93,18 +94,35 @@
 </section>
 <section class="section section--paper">
   <div class="container with-aside">
-    <div class="rv">
-      <p class="label label--dark">Escríbanos</p>
-      <p class="contact-mail"><a href="mailto:contacto@oakmontservices.com">contacto@oakmontservices.com</a></p>
-      <p class="lede">Para orientar mejor la primera conversación, le sugerimos incluir:</p>
-      <ul class="checklist">
-        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg><span>Su nombre, cargo y empresa.</span></li>
-        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg><span>El reto que quiere resolver y por qué es prioritario ahora.</span></li>
-        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg><span>El servicio o la industria que le interesa, si ya lo tiene identificado.</span></li>
-        <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5" /></svg><span>Plazos o hitos relevantes para su organización.</span></li>
-      </ul>
-    </div>
-    <aside class="aside rv" aria-label="Qué pasa después">
+    <form class="form rv" id="contact-form" action="/api/contacto" method="post" data-email="contacto@oakmontservices.com" novalidate>
+      <p class="form__ok" role="status" tabindex="-1">Gracias. Recibimos su mensaje; un especialista de Oakmont se pondrá en contacto con usted.</p>
+      <div class="form__row">
+        <label class="field"><span>Nombre completo *</span><input name="nombre" autocomplete="name" maxlength="120" required></label>
+        <label class="field"><span>Correo corporativo *</span><input name="correo" type="email" autocomplete="email" maxlength="160" required></label>
+      </div>
+      <div class="form__row">
+        <label class="field"><span>Empresa *</span><input name="empresa" autocomplete="organization" maxlength="160" required></label>
+        <label class="field"><span>Cargo</span><input name="cargo" autocomplete="organization-title" maxlength="120"></label>
+      </div>
+      <div class="form__row">
+        <label class="field"><span>Teléfono</span><input name="telefono" type="tel" autocomplete="tel" maxlength="40"></label>
+        <label class="field"><span>Tema de interés *</span><select name="interes" required><option value="">Seleccione una opción</option><option value="diagnostico">Diagnóstico estratégico de dos semanas</option><option value="fabrica-de-software">Fábrica de Software</option><option value="strategy-advisory">Strategy &amp; Advisory</option><option value="staff-augmentation">Staff Augmentation</option><option value="cloud-multicloud">Cloud / Multicloud</option><option value="data-ai">Data &amp; AI</option><option value="cyber-trust">Cyber &amp; Trust</option><option value="cloud-operations">Cloud Operations</option><option value="quality-engineering">Quality Engineering</option><option value="servicios-financieros">Industria: Servicios financieros</option><option value="retail-y-consumo">Industria: Retail y consumo</option><option value="salud-y-seguros">Industria: Salud y seguros</option><option value="otro">Otro tema</option></select></label>
+      </div>
+      <label class="field"><span>¿Qué reto quiere resolver? *</span><textarea name="mensaje" rows="6" maxlength="5000" required></textarea></label>
+      <div class="visually-hidden" aria-hidden="true"><label>No llene este campo <input name="sitio_web" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="ts" value="">
+      <input type="hidden" name="interes_label" value="">
+      <input type="hidden" name="pagina_origen" value="">
+      <label class="check"><input type="checkbox" name="privacidad" required><span>He leído y acepto el <a href="../aviso-de-privacidad/">aviso de privacidad</a>. *</span></label>
+      <p class="form__error" role="alert" hidden>Revise los campos marcados con *.</p>
+      <div class="form__actions">
+        <button class="btn btn--dark btn--lg" type="submit">Enviar mensaje</button>
+        <p class="form__note">Sus datos se usan solo para responder a su solicitud.</p>
+      </div>
+    </form>
+    <aside class="aside rv" aria-label="Otras formas de contacto">
+      <p class="aside__h">Correo</p>
+      <p><a href="mailto:contacto@oakmontservices.com">contacto@oakmontservices.com</a></p>
       <p class="aside__h">Qué pasa después</p>
       <ol class="steps-mini">
         <li>Revisamos su mensaje y lo asignamos a un especialista en su tema.</li>
