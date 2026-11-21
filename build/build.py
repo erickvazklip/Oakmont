@@ -750,7 +750,7 @@ def build_approach():
     layer = "".join(f'<li class="rv"><h3>{e(t)}</h3><p>{e(d)}</p></li>' for t, d in C.LAYER)
     ph = "".join(f'<li><span class="phases__dot" aria-hidden="true"></span><span class="phases__n">{n}</span><h3>{t}</h3><p class="phases__lead">{e(a)}</p><p>{e(b)}</p></li>' for n, t, a, b in C.PHASES)
     gov = "".join(f'<li class="rv"><h3>{e(t)}</h3><p>{e(d)}</p></li>' for t, d in C.GOVERNANCE)
-    ct = "".join(f'<tr><th scope="row">{e(t)}</th><td>{e(d)}</td><td>{e(w)}</td></tr>' for t, d, w in C.CONTRACTS)
+    ct = "".join(f'<tr><th scope="row">{e(t)}</th><td data-label="Qué es">{e(d)}</td><td data-label="Cuándo conviene">{e(w)}</td></tr>' for t, d, w in C.CONTRACTS)
     ms = "".join(f'<div class="figure"><strong class="figure__word">{e(t)}</strong><span>{e(d)}</span></div>' for t, d in C.MEASURES)
     body = phero(r, crumbs, "Enfoque", "Tres horizontes, un solo gobierno.",
                  "Define, Evolve y Deliver no son tres proveedores ni tres contratos: son tres horizontes de una misma iniciativa, con un solo responsable y un mismo tablero de indicadores.") + f'''
