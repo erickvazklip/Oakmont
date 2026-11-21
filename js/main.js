@@ -144,10 +144,10 @@
     var cur = document.createElement('div');
     cur.className = 'cursor';
     cur.setAttribute('aria-hidden', 'true');
-    cur.innerHTML = '<span class="cursor__ring"></span><span class="cursor__dot"></span>';
+    cur.innerHTML = '<span class="cursor__sparks"></span><span class="cursor__ring"></span><span class="cursor__dot"></span>';
     document.body.appendChild(cur);
     document.documentElement.classList.add('has-cursor');
-    var ring = cur.firstChild, dotEl = cur.lastChild;
+    var sparks = cur.children[0], ring = cur.children[1], dotEl = cur.children[2];
     var x = -100, y = -100, rx = x, ry = y, raf = null, follow = reduced ? 1 : 0.2;
     var place = function (el, px, py) { el.style.transform = 'translate3d(' + px + 'px,' + py + 'px,0)'; };
     var trail = function () {
@@ -157,8 +157,29 @@
     };
     var interactive = 'a, button, summary, select, label, [role="button"]';
     var textual = 'input:not([type="checkbox"]):not([type="radio"]), textarea';
+    /* trail of gold and white glints, spaced by distance travelled */
+    var lastX = null, lastY = null, travelled = 0, live = 0;
+    var glint = function (px, py) {
+      if (reduced || live >= 24 || cur.classList.contains('is-text')) return;
+      var g = document.createElement('span');
+      var size = 8 + Math.random() * 8;
+      g.className = 'spark' + (Math.random() < 0.4 ? ' spark--white' : '') + (cur.classList.contains('on-light') ? ' spark--light' : '');
+      g.style.left = (px + (Math.random() - 0.5) * 10).toFixed(1) + 'px';
+      g.style.top = (py + (Math.random() - 0.5) * 10).toFixed(1) + 'px';
+      g.style.width = g.style.height = size.toFixed(1) + 'px';
+      g.style.marginLeft = g.style.marginTop = (-size / 2).toFixed(1) + 'px';
+      g.style.setProperty('--dx', ((Math.random() - 0.5) * 30).toFixed(1) + 'px');
+      g.style.setProperty('--dy', (8 + Math.random() * 22).toFixed(1) + 'px');
+      g.style.setProperty('--life', (750 + Math.random() * 450).toFixed(0) + 'ms');
+      g.addEventListener('animationend', function () { g.remove(); live--; });
+      sparks.appendChild(g);
+      live++;
+    };
     document.addEventListener('pointermove', function (e) {
       x = e.clientX; y = e.clientY;
+      if (lastX !== null) travelled += Math.abs(x - lastX) + Math.abs(y - lastY);
+      lastX = x; lastY = y;
+      if (travelled > 18) { travelled = 0; glint(x, y); }
       place(dotEl, x, y);
       cur.classList.add('is-visible');
       if (!raf) raf = requestAnimationFrame(trail);
@@ -166,6 +187,7 @@
     document.addEventListener('pointerover', function (e) {
       cur.classList.toggle('is-link', !!e.target.closest(interactive));
       cur.classList.toggle('is-text', !!e.target.closest(textual));
+      cur.classList.toggle('on-light', !!e.target.closest('.section, .figures') && !e.target.closest('.tile--dark, .tile--hero'));
     });
     document.addEventListener('pointerdown', function () { cur.classList.add('is-down'); });
     document.addEventListener('pointerup', function () { cur.classList.remove('is-down'); });
