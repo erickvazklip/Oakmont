@@ -110,8 +110,8 @@ def header(r, active, home):
       <div class="nav__item"><a href="{r}enfoque/"{cls("enfoque")}>Enfoque</a></div>
       <div class="nav__item"><a href="{r}casos/"{cls("casos")}>Casos</a></div>
       <div class="nav__item"><a href="{r}nosotros/"{cls("nosotros")}>Nosotros</a></div>
+      <div class="nav__item"><a href="{r}contacto/"{cls("contacto")}>Contacto</a></div>
     </nav>
-    <a href="{r}diagnostico/" class="btn btn--gold btn--sm nav__cta">Agendar diagnóstico</a>
     <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
 </header>
@@ -130,7 +130,6 @@ def header(r, active, home):
     <a href="{r}casos/">Casos</a>
     <a href="{r}nosotros/">Nosotros</a>
     <a href="{r}contacto/">Contacto</a>
-    <a class="btn btn--gold btn--lg" href="{r}diagnostico/">Agendar diagnóstico</a>
   </nav>
 </div>
 '''
@@ -276,23 +275,6 @@ def head(label, title, dark=False, aside=""):
     return f'''<header class="head{' head--row' if aside else ''} rv"><div><p class="{lab}">{e(label)}</p><h2 class="{disp}">{e(title)}</h2></div>{a}</header>'''
 
 
-def cta_band(r, title="Empecemos por entender dónde está hoy su tecnología.",
-             text="Un diagnóstico estratégico de dos semanas, sin compromiso, con hallazgos accionables."):
-    return f'''
-<section class="ctaband">
-  <div class="container ctaband__inner rv">
-    <div>
-      <h2 class="ctaband__title">{e(title)}</h2>
-      <p>{e(text)}</p>
-    </div>
-    <div class="ctaband__actions">
-      <a href="{r}diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
-      <a href="{r}contacto/" class="link-arrow">Contactar a Oakmont</a>
-    </div>
-  </div>
-</section>'''
-
-
 def svc_card(r, s):
     return f'''<a class="scard rv" href="{r}servicios/{s["slug"]}/">
   {icon(s["icon"])}
@@ -361,7 +343,6 @@ def build_home():
     </h1>
     <p class="hero__lede rv" style="--d:.5s">Acompañamos a la dirección ejecutiva en la definición, evolución e ingeniería de soluciones tecnológicas — de la estrategia a la producción, bajo un modelo de gobierno único.</p>
     <div class="hero__actions rv" style="--d:.6s">
-      <a href="diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
       <a href="servicios/" class="link-arrow">Explorar servicios {icon("arrow-right")}</a>
     </div>
   </div>
@@ -464,8 +445,7 @@ def build_home():
     <h2 class="cta__title" id="cta-title">La distancia entre la ambición tecnológica y su ejecución es donde se gana la ventaja.</h2>
     <p class="cta__sub">Oakmont existe para cerrarla. Propongamos un diagnóstico estratégico de dos semanas — sin compromiso, con hallazgos accionables.</p>
     <div class="cta__actions">
-      <a href="diagnostico/" class="btn btn--gold btn--lg">Agendar diagnóstico</a>
-      <a href="contacto/" class="link-arrow">Contactar a Oakmont</a>
+      <a href="contacto/" class="link-arrow">Contactar a Oakmont {icon("arrow-right")}</a>
     </div>
   </div>
 </section>'''
@@ -514,7 +494,7 @@ def build_services_index():
       <p class="more"><a class="link-arrow link-arrow--dark" href="{r}enfoque/">Ver cómo trabajamos {icon("arrow-right")}</a></p>
     </div>
   </div>
-</section>''' + cta_band(r)
+</section>'''
     write("servicios/index.html", "Servicios", "Ocho capacidades de consultoría en TI: fábrica de software, estrategia, talento, nube, datos e IA, ciberseguridad, operación cloud y calidad.",
           body, active="servicios", crumbs=crumbs)
 
@@ -612,8 +592,7 @@ def build_service(s):
     {head("Servicios relacionados", "Se combinan bien con este servicio.")}
     <div class="scards scards--3" data-stagger>{related}</div>
   </div>
-</section>''' + cta_band(r, title=f'¿Conversamos sobre {s["name"]}?',
-                          text="Cuéntenos su contexto y le proponemos el alcance y el modelo de contratación adecuados.")
+</section>'''
     ld = [
         {"@context": "https://schema.org", "@type": "Service", "name": s["name"], "description": s["lede"],
          "provider": {"@type": "Organization", "name": C.SITE["name"], "url": C.SITE["domain"] + "/"},
@@ -632,7 +611,7 @@ def build_industries_index():
                  "Llevamos las mismas capacidades a contextos con exigencias distintas: regulación, picos de demanda, información sensible. Conocer el sector cambia qué se prioriza y cómo se ejecuta.") + f'''
 <section class="section section--paper">
   <div class="container"><h2 class="visually-hidden">Industrias</h2><div class="icards" data-stagger>{cards}</div></div>
-</section>''' + cta_band(r)
+</section>'''
     write("industrias/index.html", "Industrias", "Consultoría en TI para servicios financieros, retail y consumo, y salud y seguros.",
           body, active="industrias", crumbs=crumbs)
 
@@ -675,7 +654,7 @@ def build_industry(i):
       <span class="scard__more">Leer el caso completo</span>
     </a>
   </div>
-</section>''' + cta_band(r)
+</section>'''
     write(f'industrias/{i["slug"]}/index.html', i["name"], i["lede"], body, active="industrias", crumbs=crumbs)
 
 
@@ -697,7 +676,7 @@ def build_cases_index():
     <div class="cases" data-stagger>{cards}</div>
     <div class="partners-row rv"><span>Alianzas</span><ul class="partners"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li></ul></div>
   </div>
-</section>''' + cta_band(r)
+</section>'''
     write("casos/index.html", "Casos", "Casos representativos de modernización, operación cloud-native y plataformas de datos con IA aplicada.",
           body, active="casos", crumbs=crumbs)
 
@@ -760,7 +739,7 @@ def build_case(c):
     {head("Más casos", "Otros resultados.")}
     <div class="cases cases--2" data-stagger>{oth}</div>
   </div>
-</section>''' + cta_band(r, title="¿Un reto parecido en su organización?")
+</section>'''
     write(f'casos/{c["slug"]}/index.html', f'Caso {c["n"]}: {ind["name"]}', c["summary"], body, active="casos", crumbs=crumbs)
 
 
@@ -818,7 +797,7 @@ def build_approach():
     {head("Cómo medimos el éxito", "Tres métricas acordadas antes de empezar.")}
     <div class="figures__grid figures__grid--3 rv">{ms}</div>
   </div>
-</section>''' + cta_band(r)
+</section>'''
     write("enfoque/index.html", "Enfoque", "Framework Define, Evolve, Deliver; modelo de engagement; gobierno de entrega y modelos contractuales de Oakmont Services.",
           body, active="enfoque", crumbs=crumbs)
 
@@ -874,7 +853,7 @@ def build_about():
       <ul class="partners partners--lg"><li>AWS</li><li>Microsoft Azure</li><li>Google Cloud</li></ul>
     </div>
   </div>
-</section>''' + cta_band(r)
+</section>'''
     write("nosotros/index.html", "Nosotros", "Quiénes somos, propósito, principios y modelo de talento de Oakmont Services.",
           body, active="nosotros", crumbs=crumbs)
 
@@ -887,8 +866,7 @@ def build_diagnostic():
     dl = "".join(f'<li class="rv"><h3>{e(t)}</h3><p>{e(d)}</p></li>' for t, d in D["deliverables"])
     needs = "".join(f'<li>{icon("check")}<span>{e(x)}</span></li>' for x in D["needs"])
     body = phero(r, crumbs, "Diagnóstico estratégico", "Dos semanas para saber dónde está y qué hacer primero.",
-                 "Un diagnóstico acotado de su tecnología con hallazgos accionables y prioridades claras. Sin compromiso de contratación posterior.",
-                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes=diagnostico" class="btn btn--gold btn--lg">Agendar diagnóstico</a></div>') + f'''
+                 "Un diagnóstico acotado de su tecnología con hallazgos accionables y prioridades claras. Sin compromiso de contratación posterior.") + f'''
 <section class="section section--paper">
   <div class="container">
     {head("Agenda", "Cómo se usan las dos semanas.")}
@@ -915,7 +893,7 @@ def build_diagnostic():
       <p class="lede">Al terminar, usted decide si continúa con Oakmont, con otro proveedor o con su propio equipo. Los entregables son suyos.</p>
     </div>
   </div>
-</section>''' + cta_band(r, title="Agende la sesión de arranque.", text="Cuéntenos su contexto y acordamos con usted fechas y participantes.")
+</section>'''
     write("diagnostico/index.html", "Diagnóstico estratégico de dos semanas", "Diagnóstico tecnológico de dos semanas con hallazgos accionables, riesgos priorizados e iniciativas por horizonte.",
           body, crumbs=crumbs)
 
@@ -970,7 +948,7 @@ def build_contact():
   </div>
 </section>'''
     write("contacto/index.html", "Contacto", "Contacte a Oakmont Services para conversar sobre estrategia, arquitectura, ingeniería, nube, datos e IA.",
-          body, crumbs=crumbs)
+          body, active="contacto", crumbs=crumbs)
 
 
 def build_privacy():
