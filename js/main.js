@@ -157,20 +157,20 @@
     };
     var interactive = 'a, button, summary, select, label, [role="button"]';
     var textual = 'input:not([type="checkbox"]):not([type="radio"]), textarea';
-    /* trail of gold and white glints, spaced by distance travelled */
+    /* trail of fine gold and white dust, spaced by distance travelled */
     var lastX = null, lastY = null, travelled = 0, live = 0;
     var glint = function (px, py) {
-      if (reduced || live >= 24 || cur.classList.contains('is-text')) return;
+      if (reduced || live >= 30 || cur.classList.contains('is-text')) return;
       var g = document.createElement('span');
-      var size = 8 + Math.random() * 8;
+      var size = 1.5 + Math.random() * 2;
       g.className = 'spark' + (Math.random() < 0.4 ? ' spark--white' : '') + (cur.classList.contains('on-light') ? ' spark--light' : '');
-      g.style.left = (px + (Math.random() - 0.5) * 10).toFixed(1) + 'px';
-      g.style.top = (py + (Math.random() - 0.5) * 10).toFixed(1) + 'px';
+      g.style.left = (px + (Math.random() - 0.5) * 14).toFixed(1) + 'px';
+      g.style.top = (py + (Math.random() - 0.5) * 14).toFixed(1) + 'px';
       g.style.width = g.style.height = size.toFixed(1) + 'px';
       g.style.marginLeft = g.style.marginTop = (-size / 2).toFixed(1) + 'px';
-      g.style.setProperty('--dx', ((Math.random() - 0.5) * 30).toFixed(1) + 'px');
-      g.style.setProperty('--dy', (8 + Math.random() * 22).toFixed(1) + 'px');
-      g.style.setProperty('--life', (750 + Math.random() * 450).toFixed(0) + 'ms');
+      g.style.setProperty('--dx', ((Math.random() - 0.5) * 16).toFixed(1) + 'px');
+      g.style.setProperty('--dy', (4 + Math.random() * 14).toFixed(1) + 'px');
+      g.style.setProperty('--life', (900 + Math.random() * 700).toFixed(0) + 'ms');
       g.addEventListener('animationend', function () { g.remove(); live--; });
       sparks.appendChild(g);
       live++;
@@ -179,7 +179,7 @@
       x = e.clientX; y = e.clientY;
       if (lastX !== null) travelled += Math.abs(x - lastX) + Math.abs(y - lastY);
       lastX = x; lastY = y;
-      if (travelled > 18) { travelled = 0; glint(x, y); }
+      if (travelled > 10) { travelled = 0; glint(x, y); }
       place(dotEl, x, y);
       cur.classList.add('is-visible');
       if (!raf) raf = requestAnimationFrame(trail);
