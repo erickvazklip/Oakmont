@@ -30,6 +30,7 @@ información. _Architecting Technology Advantage._
 build/content.py     Todo el texto del sitio (servicios, industrias, casos, enfoque…)
 build/build.py       Generador de páginas, sitemap.xml y robots.txt
 build/icons.py       Íconos SVG incrustados (Lucide 0.456.0, licencia ISC)
+build/diagrams.py    Diagramas alegóricos de servicios, industrias y enfoque
 css/styles.css       Hoja de estilos única (tokens, componentes, responsive)
 js/main.js           Revelados, menús, formulario de contacto
 js/admin.js          Panel de leads
@@ -50,8 +51,10 @@ images/              Fotografías e imagen para redes (og.jpg)
   fundación, oficinas, certificaciones ni tiempos de respuesta que no estén
   confirmados. Los casos se publican sin nombre de cliente.
 - **Movimiento:** solo lo que refuerza el mensaje. El titular de inicio entra
-  una vez, los bloques aparecen una vez (600 ms), el diagrama de horizontes se
-  dibuja una vez y la línea del modelo recorre sus fases una vez. Con
+  una vez, los bloques aparecen una vez (600 ms) y la línea del modelo recorre
+  sus fases una vez. Cada servicio, cada industria y el enfoque tienen un
+  diagrama alegórico (`build/diagrams.py`) que explica su idea mientras se
+  dibuja, una sola vez y en el orden del mensaje. Con
   «reducir movimiento» activado todo aparece directamente, y sin JavaScript el
   contenido es visible.
 - **Accesibilidad:** WCAG 2.1 AA. El dorado de marca `#A8966F` se usa para

@@ -24,6 +24,7 @@ EXPLICIT_INDEX = False
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import content as C  # noqa: E402
 from icons import ICONS  # noqa: E402
+import diagrams  # noqa: E402
 
 SVC = {s["slug"]: s for s in C.SERVICES}
 IND = {i["slug"]: i for i in C.INDUSTRIES}
@@ -247,15 +248,23 @@ def write(path, title, desc, body, active="", crumbs=None, home=False, ld=None, 
 # --------------------------------------------------------------------------
 # Reusable blocks
 # --------------------------------------------------------------------------
-def phero(r, crumbs, label, title, lede, actions="", extra_cls=""):
-    return f'''
-<section class="phero {extra_cls}">
-  <div class="container">
-    {crumbs_html(r, crumbs)}
+def allegory(key, caption=""):
+    """Diagram that draws itself once (see build/diagrams.py)."""
+    return f'<figure class="allegory rv">{diagrams.svg(key)}{caption}</figure>'
+
+
+def phero(r, crumbs, label, title, lede, actions="", visual=""):
+    text = f'''{crumbs_html(r, crumbs)}
     <p class="label rv">{e(label)}</p>
     <h1 class="phero__title rv">{e(title)}</h1>
     <p class="phero__lede rv">{e(lede)}</p>
-    {actions}
+    {actions}'''
+    if visual:
+        text = f'<div class="phero__grid"><div>{text}</div>{visual}</div>'
+    return f'''
+<section class="phero">
+  <div class="container">
+    {text}
   </div>
 </section>'''
 
@@ -471,20 +480,7 @@ def build_home():
 
 
 def orbit_svg():
-    return '''<figure class="orbit-wrap rv">
-        <svg class="orbit" viewBox="0 0 400 400" role="img" aria-label="Tres horizontes concéntricos — Define, Evolve y Deliver — dentro de una misma capa de gobierno">
-          <circle class="orbit__gov" cx="200" cy="200" r="190" pathLength="1"/>
-          <circle class="orbit__ring r3" cx="200" cy="200" r="150" pathLength="1"/>
-          <circle class="orbit__ring r2" cx="200" cy="200" r="104" pathLength="1"/>
-          <circle class="orbit__ring r1" cx="200" cy="200" r="58" pathLength="1"/>
-          <circle class="orbit__core" cx="200" cy="200" r="5"/>
-          <text class="t1" x="200" y="204">DEFINE</text>
-          <text class="t2" x="200" y="116">EVOLVE</text>
-          <text class="t3" x="200" y="70">DELIVER</text>
-          <text class="t4" x="200" y="24">GOBIERNO</text>
-        </svg>
-        <figcaption><span>Capa transversal</span><ul><li>Gobierno</li><li>Calidad</li><li>Seguridad</li><li>Innovación</li></ul></figcaption>
-      </figure>'''
+    return allegory("horizontes", '<figcaption><span>Capa transversal</span><ul><li>Gobierno</li><li>Calidad</li><li>Seguridad</li><li>Innovación</li></ul></figcaption>')
 
 
 def build_services_index():
@@ -553,7 +549,7 @@ def build_service(s):
     if cases:
         case_links = '<p class="aside__h">Casos relacionados</p><ul>' + "".join(f'<li><a href="{r}casos/{c["slug"]}/">{e(c["title"])}</a></li>' for c in cases) + "</ul>"
 
-    body = phero(r, crumbs, f'{plane} · {s["sub"]}', s["name"], s["lede"], actions) + f'''
+    body = phero(r, crumbs, f'{plane} · {s["sub"]}', s["name"], s["lede"], actions, allegory(s["slug"])) + f'''
 <section class="section section--paper">
   <div class="container">
     <div class="svc-intro rv">
@@ -649,7 +645,8 @@ def build_industry(i):
     hp = "".join(f'''<a class="helprow rv" href="{r}servicios/{sl}/"><span class="helprow__svc">{icon(SVC[sl]["icon"])}{e(SVC[sl]["name"])}</span><span class="helprow__txt">{e(t)}</span><span class="helprow__go" aria-hidden="true">{icon("arrow-right")}</span></a>''' for sl, t in i["help"])
     c = CASE[i["case"]]
     body = phero(r, crumbs, "Industrias", i["name"], i["lede"],
-                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes={i["slug"]}" class="btn btn--gold btn--lg">Conversar sobre su sector</a></div>') + f'''
+                 f'<div class="phero__actions rv"><a href="{r}contacto/?interes={i["slug"]}" class="btn btn--gold btn--lg">Conversar sobre su sector</a></div>',
+                 allegory(i["slug"])) + f'''
 <section class="section section--paper">
   <div class="container split split--even">
     <div class="rv"><p class="label label--dark">Contexto</p><h2 class="display">{e(i["tagline"])}</h2></div>

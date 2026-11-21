@@ -288,27 +288,34 @@ a { color: inherit; }
 /* framework: the diagram explains the idea once, then stays still */
 .framework { padding: clamp(96px, 14vh, 150px) 0; background: var(--ink); }
 .framework__grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(40px, 7vw, 110px); align-items: center; }
-.orbit { display: block; width: 100%; max-width: 420px; overflow: visible; }
-.orbit circle { fill: none; }
-.orbit__gov { stroke: rgba(247, 247, 247, .22); stroke-width: 1; stroke-dasharray: .006 .012; }
-.orbit__ring { stroke: var(--gold); stroke-width: 1.2; }
-.orbit__ring.r2 { stroke-opacity: .7; }
-.orbit__ring.r3 { stroke-opacity: .45; }
-.orbit__core { fill: var(--gold); }
-.orbit text { font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: .3em; text-anchor: middle; fill: rgba(247, 247, 247, .8); }
-.orbit text.t4 { fill: rgba(247, 247, 247, .42); }
-.js .orbit__ring { stroke-dasharray: 1; stroke-dashoffset: 1; transform: rotate(-90deg); transform-origin: 200px 200px; transition: stroke-dashoffset 1s var(--ease-out); }
-.js .orbit text, .js .orbit__gov { opacity: 0; transition: opacity 500ms var(--ease-out); }
-.js .orbit-wrap.is-in .orbit__ring { stroke-dashoffset: 0; }
-.js .orbit-wrap.is-in text, .js .orbit-wrap.is-in .orbit__gov { opacity: 1; }
-.js .orbit-wrap.is-in .r1, .js .orbit-wrap.is-in .t1 { transition-delay: .2s; }
-.js .orbit-wrap.is-in .r2, .js .orbit-wrap.is-in .t2 { transition-delay: .6s; }
-.js .orbit-wrap.is-in .r3, .js .orbit-wrap.is-in .t3 { transition-delay: 1s; }
-.js .orbit-wrap.is-in .orbit__gov, .js .orbit-wrap.is-in .t4 { transition-delay: 1.4s; }
-.orbit-wrap figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 28px; }
-.orbit-wrap figcaption span { font-size: 11px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--on-dark-3); }
-.orbit-wrap figcaption ul { display: flex; flex-wrap: wrap; gap: 8px; }
-.orbit-wrap figcaption li, .mini li { padding: 6px 14px; border: 1px solid var(--line-dark); border-radius: 999px; font-size: 12px; color: rgba(247, 247, 247, .75); }
+/* allegories: diagrams that explain an idea while drawing themselves, once */
+.allegory__svg { display: block; width: 100%; max-width: 420px; overflow: visible; }
+.allegory__svg path, .allegory__svg circle:not([class*="fill"]), .allegory__svg rect:not([class*="fill"]):not([class*="tint"]) { fill: none; }
+.allegory .g, .allegory .g2, .allegory .g3 { stroke: var(--gold); stroke-width: 1.2; }
+.allegory .g2 { stroke-opacity: .7; }
+.allegory .g3 { stroke-opacity: .45; }
+.allegory .w { stroke: rgba(247, 247, 247, .22); stroke-width: 1; }
+.allegory .w-solid { stroke: rgba(247, 247, 247, .55); stroke-width: 1.2; }
+.allegory .dash { stroke-dasharray: 3 6; }
+.allegory .fill { fill: var(--gold); }
+.allegory .fill-dim { fill: rgba(247, 247, 247, .55); }
+.allegory .grid-dot { fill: rgba(247, 247, 247, .18); }
+.allegory .tint, .allegory .tint-round { fill: rgba(196, 181, 150, .08); }
+.allegory text { font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: .24em; text-anchor: middle; fill: rgba(247, 247, 247, .82); }
+.allegory text.dim { fill: rgba(247, 247, 247, .45); }
+.allegory text.gold { fill: var(--gold); }
+.allegory text.big { font-family: var(--font-display); font-size: 20px; font-weight: 400; letter-spacing: .04em; }
+.allegory text.s { text-anchor: start; }
+.allegory text.e { text-anchor: end; }
+.js .allegory .draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--dur, 1s) var(--ease-out) var(--t, 0s); }
+.js .allegory circle.draw { transform: rotate(-90deg); transform-box: fill-box; transform-origin: center; }
+.js .allegory .fade { opacity: 0; transition: opacity 500ms var(--ease-out) var(--t, 0s); }
+.js .allegory.is-in .draw { stroke-dashoffset: 0; }
+.js .allegory.is-in .fade { opacity: 1; }
+.allegory figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 28px; }
+.allegory figcaption span { font-size: 11px; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--on-dark-3); }
+.allegory figcaption ul { display: flex; flex-wrap: wrap; gap: 8px; }
+.allegory figcaption li, .mini li { padding: 6px 14px; border: 1px solid var(--line-dark); border-radius: 999px; font-size: 12px; color: rgba(247, 247, 247, .75); }
 
 .horizons > li { display: grid; grid-template-columns: 64px 1fr; gap: 20px; padding: 30px 0; border-top: 1px solid var(--line-dark); }
 .horizons > li:last-child { border-bottom: 1px solid var(--line-dark); }
@@ -362,6 +369,8 @@ a { color: inherit; }
 .phero__title { max-width: 15em; font-family: var(--font-display); font-weight: 400; text-transform: uppercase; letter-spacing: .02em; line-height: 1.05; font-size: clamp(34px, 5.2vw, 76px); text-wrap: balance; }
 .phero__lede { max-width: 40em; margin-top: 26px; font-size: clamp(16px, 1.35vw, 19px); font-weight: 300; line-height: 1.75; color: rgba(247, 247, 247, .76); }
 .phero__actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; margin-top: 36px; }
+.phero__grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+.phero__grid .allegory__svg { margin-left: auto; }
 .phero--404 { display: flex; align-items: center; min-height: 80vh; }
 
 .crumbs { margin-bottom: 36px; }
@@ -647,7 +656,9 @@ a { color: inherit; }
   .split, .split--even, .framework__grid { grid-template-columns: 1fr; }
   .split--even { gap: 28px; }
   .split__media { aspect-ratio: 4 / 3; }
-  .orbit { max-width: 280px; }
+  .allegory__svg { max-width: 280px; }
+  .phero__grid { grid-template-columns: 1fr; }
+  .phero__grid .allegory__svg { max-width: 280px; margin: 8px auto 0; }
   .sevenr { grid-template-columns: repeat(2, 1fr); }
   .sevenr li:last-child { grid-column: span 2; }
   .phases { grid-template-columns: 1fr; gap: 28px; padding: 0 0 0 36px; }
@@ -680,8 +691,8 @@ a { color: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation: none !important; }
   .js .rv, .js .lines > span > span { opacity: 1; transform: none; }
-  .js .orbit__ring { stroke-dashoffset: 0; }
-  .js .orbit text, .js .orbit__gov { opacity: 1; }
+  .js .allegory .draw { stroke-dashoffset: 0; }
+  .js .allegory .fade { opacity: 1; }
   .js .phases::after { transform: none; }
   .js .phases__dot { background: var(--gold); }
 }
