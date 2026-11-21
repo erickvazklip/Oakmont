@@ -144,10 +144,10 @@
     var cur = document.createElement('div');
     cur.className = 'cursor';
     cur.setAttribute('aria-hidden', 'true');
-    cur.innerHTML = '<span class="cursor__sparks"></span><span class="cursor__ring"></span><span class="cursor__dot"></span>';
+    cur.innerHTML = '<span class="cursor__trail"></span><span class="cursor__ring"></span><span class="cursor__dot"></span>';
     document.body.appendChild(cur);
     document.documentElement.classList.add('has-cursor');
-    var sparks = cur.children[0], ring = cur.children[1], dotEl = cur.children[2];
+    var trailLayer = cur.children[0], ring = cur.children[1], dotEl = cur.children[2];
     var x = -100, y = -100, rx = x, ry = y, raf = null, follow = reduced ? 1 : 0.2;
     var place = function (el, px, py) { el.style.transform = 'translate3d(' + px + 'px,' + py + 'px,0)'; };
     var trail = function () {
@@ -157,29 +157,31 @@
     };
     var interactive = 'a, button, summary, select, label, [role="button"]';
     var textual = 'input:not([type="checkbox"]):not([type="radio"]), textarea';
-    /* trail of fine gold and white dust, spaced by distance travelled */
-    var lastX = null, lastY = null, travelled = 0, live = 0;
-    var glint = function (px, py) {
-      if (reduced || live >= 30 || cur.classList.contains('is-text')) return;
+    /* faint trail of light: soft overlapping glows laid along the path, so it
+       reads as one continuous streak rather than separate points */
+    var tx = null, ty = null, live = 0, STEP = 3;
+    var glow = function (px, py) {
+      if (live >= 90) return;
       var g = document.createElement('span');
-      var size = 1.5 + Math.random() * 2;
-      g.className = 'spark' + (Math.random() < 0.4 ? ' spark--white' : '') + (cur.classList.contains('on-light') ? ' spark--light' : '');
-      g.style.left = (px + (Math.random() - 0.5) * 14).toFixed(1) + 'px';
-      g.style.top = (py + (Math.random() - 0.5) * 14).toFixed(1) + 'px';
-      g.style.width = g.style.height = size.toFixed(1) + 'px';
-      g.style.marginLeft = g.style.marginTop = (-size / 2).toFixed(1) + 'px';
-      g.style.setProperty('--dx', ((Math.random() - 0.5) * 16).toFixed(1) + 'px');
-      g.style.setProperty('--dy', (4 + Math.random() * 14).toFixed(1) + 'px');
-      g.style.setProperty('--life', (900 + Math.random() * 700).toFixed(0) + 'ms');
+      g.className = 'trail' + (cur.classList.contains('on-light') ? ' trail--light' : '');
+      g.style.left = px.toFixed(1) + 'px';
+      g.style.top = py.toFixed(1) + 'px';
       g.addEventListener('animationend', function () { g.remove(); live--; });
-      sparks.appendChild(g);
+      trailLayer.appendChild(g);
       live++;
+    };
+    var lay = function (px, py) {
+      if (reduced || cur.classList.contains('is-text')) { tx = px; ty = py; return; }
+      if (tx === null) { tx = px; ty = py; return; }
+      var dx = px - tx, dy = py - ty, d = Math.sqrt(dx * dx + dy * dy);
+      if (d < STEP) return;
+      var n = Math.min(Math.floor(d / STEP), 16);
+      for (var i = 1; i <= n; i++) glow(tx + dx * i / n, ty + dy * i / n);
+      tx = px; ty = py;
     };
     document.addEventListener('pointermove', function (e) {
       x = e.clientX; y = e.clientY;
-      if (lastX !== null) travelled += Math.abs(x - lastX) + Math.abs(y - lastY);
-      lastX = x; lastY = y;
-      if (travelled > 10) { travelled = 0; glint(x, y); }
+      lay(x, y);
       place(dotEl, x, y);
       cur.classList.add('is-visible');
       if (!raf) raf = requestAnimationFrame(trail);

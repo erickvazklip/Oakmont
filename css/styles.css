@@ -163,19 +163,16 @@ a { color: inherit; }
 .cursor.is-link .cursor__dot::after { transform: scale(0); }
 .cursor.is-down .cursor__ring::after { transform: scale(.8); }
 .cursor.is-link.is-down .cursor__ring::after { transform: scale(1.35); }
-.cursor__sparks { position: absolute; inset: 0; }
-.spark {
-  position: absolute; border-radius: 50%; --c: 196, 181, 150; --o: .7;
-  background: rgb(var(--c)); box-shadow: 0 0 4px rgba(var(--c), .5);
-  animation: spark var(--life, 1200ms) cubic-bezier(.25, .6, .4, 1) forwards;
+.cursor__trail { position: absolute; inset: 0; }
+.trail {
+  position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 222, 198, .3) 0%, rgba(196, 181, 150, .12) 40%, rgba(196, 181, 150, 0) 70%);
+  animation: trail 480ms ease-out forwards;
 }
-.spark--white { --c: 255, 255, 255; --o: .55; }
-.spark--light { --c: 168, 150, 111; }
-.spark--light.spark--white { --c: 114, 100, 69; --o: .45; }
-@keyframes spark {
-  0%   { opacity: 0; transform: translate(0, 0); }
-  15%  { opacity: var(--o); }
-  100% { opacity: 0; transform: translate(var(--dx), var(--dy)); }
+.trail--light { background: radial-gradient(circle, rgba(168, 150, 111, .24) 0%, rgba(168, 150, 111, .1) 40%, rgba(168, 150, 111, 0) 70%); }
+@keyframes trail {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(.35); }
 }
 
 /* ---------- 6. Navigation ---------- */
